@@ -455,20 +455,29 @@ const ui = {
 };
 let seeking = false;
 
+// The meta line: the first part truncates with an ellipsis, the rest (year, length / on-air time) always stays visible.
+function setMeta(main, rest = '') {
+  ui.meta.replaceChildren(el('span', 'm-main', main));
+  if (rest) ui.meta.append(el('span', 'm-rest', rest));
+}
+
 function render() {
   const has = !!current;
   const where = !source ? '' : live ? `Live · ${labelOf(source).replace(', shuffled', '')}` : labelOf(source);
   const clock = (sec) => new Date(sec * 1000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
   if (picking) {
-    ui.cap.textContent = where; ui.title.textContent = 'Tuning in…'; ui.meta.textContent = '';
+    ui.cap.textContent = where; ui.title.textContent = 'Tuning in…'; setMeta('');
   } else if (!has) {
     ui.cap.textContent = '';
     ui.title.textContent = messageIsAlert && message !== SLEEP_ENDED ? 'Something went wrong' : 'Choose a station';
-    ui.meta.textContent = message;
+    setMeta(message);
   } else {
     ui.cap.textContent = where; ui.title.textContent = current.title;
-    ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
+    if (message) setMeta(message);
+    else if (loading) setMeta('Loading…');
+    else if (live && liveAt) setMeta(current.show, ` · on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`);
+    else setMeta(current.show, [current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).map((p) => ` · ${p}`).join(''));
   }
   ui.cap.classList.toggle('live', live && !!source && (has || picking));
   ui.cap.hidden = !ui.cap.textContent;            // no label until a station is chosen
@@ -514,7 +523,7 @@ function renderDownload() {
   ui.dl.disabled = !has;
   ui.dl.classList.toggle('on', dl.busy || !!done);
   ui.dl.style.setProperty('--dlp', dl.busy ? `${dl.pct}%` : '0%');
-  ui.dlVal.textContent = dl.busy ? (dl.pct ? `Downloading ${dl.pct}%` : 'Downloading…') : done ? 'Save file' : 'Download';
+  ui.dlVal.textContent = dl.busy ? (dl.pct ? `${dl.pct}%` : '…') : done ? 'Save file' : 'Download';
   ui.dl.setAttribute('aria-label', dl.busy ? 'Cancel download' : done ? 'Save the downloaded episode' : 'Download this episode');
 }
 
@@ -626,7 +635,7 @@ async function boot() {
   try {
     catalog = await (await fetch('catalog/index.json')).json();
   } catch {
-    ui.title.textContent = 'Offline'; ui.meta.textContent = 'Connect to the internet and reopen.';
+    ui.title.textContent = 'Offline'; setMeta('Connect to the internet and reopen.');
     return;
   }
   catalog.shows.forEach((s) => showById.set(s.id, s));
