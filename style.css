@@ -105,7 +105,6 @@ button:disabled { cursor: default; }
 }
 .meta { margin: 0; flex: none; min-height: 1.3em; color: var(--dim); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .meta.alert { color: var(--accent); }
-.tip { margin: 4px 0 0; color: #636366; font-size: 13px; line-height: 1.35; }
 
 /* ---------- progress ---------- */
 .progress { padding-bottom: 20px; }
@@ -309,7 +308,7 @@ button:disabled { cursor: default; }
   .mini { height: 28px; }
 }
 @media (max-height: 620px) {
-  .tip, .now .cap { display: none; }
+  .now .cap { display: none; }
   .now { gap: 6px; padding-bottom: 4px; }
   .now h1 { -webkit-line-clamp: 1; font-size: 22px; }
   .progress { padding-bottom: 8px; }

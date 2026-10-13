@@ -446,16 +446,12 @@ let sheetOpener = null;
 function openSheet(o) { sheetOpener = document.activeElement; o.hidden = false; syncViewport(); o.querySelector('.panel button, .panel [tabindex]')?.focus({ preventScroll: true }); }
 function closeSheet(o) { o.hidden = true; sheetOpener?.focus?.({ preventScroll: true }); }
 
-// Only used for the Home Screen tip on the idle screen.
-const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-const isStandalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
-
 // ---------- rendering ----------
 const ui = {
   cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
   sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlVal: $('#dl-val'),
-  shows: $('#shows'), showsVal: $('#shows-val'), tip: $('#tip'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
+  shows: $('#shows'), showsVal: $('#shows-val'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
 };
 let seeking = false;
 
@@ -469,7 +465,7 @@ function render() {
   } else if (!has) {
     ui.cap.textContent = 'Old Time Radio';
     ui.title.textContent = messageIsAlert && message !== SLEEP_ENDED ? 'Something went wrong' : 'Choose a station';
-    ui.meta.textContent = message || (catalog ? `${catalog.shows.length} shows · ${catalog.shows.reduce((n, s) => n + s.n, 0).toLocaleString('en-US')} episodes` : '');
+    ui.meta.textContent = message;
   } else {
     ui.cap.textContent = where; ui.title.textContent = current.title;
     ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
@@ -477,7 +473,6 @@ function render() {
   ui.cap.classList.toggle('live', live && !!source && (has || picking));
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
   for (const [b, on] of [[ui.modeDemand, !live], [ui.modeLive, live]]) b.setAttribute('aria-pressed', on);
-  ui.tip.hidden = !(isIOS && !isStandalone && !has && !picking);
 
   const playing = has && !audio.paused;
   ui.play.classList.toggle('playing', playing && !loading && !picking);
