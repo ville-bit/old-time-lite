@@ -10,7 +10,6 @@
   --line: #2c2c2e;
   --accent: #ffb020;
   --on-accent: #000;
-  --radius: 16px;
   --gutter: 20px;
   --row: clamp(58px, calc(var(--vv-h, 100dvh) * .082), 80px);
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
@@ -160,7 +159,6 @@ button:disabled { cursor: default; }
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   overflow: hidden;
 }
 .grid.cols2 { grid-template-columns: repeat(2, 1fr); }
