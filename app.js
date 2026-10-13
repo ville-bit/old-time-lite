@@ -484,7 +484,7 @@ function render() {
   ui.next.disabled = !source || live;
 
   ui.shows.classList.toggle('on', source?.kind === 'mix');
-  ui.showsVal.textContent = mix.length ? `${mix.length} show${mix.length === 1 ? '' : 's'}` : 'Shows';
+  ui.showsVal.textContent = mix.length ? `${mix.length} show${mix.length === 1 ? '' : 's'}` : 'Choose shows';
   for (const b of ui.grid.querySelectorAll('.station')) {
     const on = source?.kind === 'station' && source.id === b.dataset.id;
     b.classList.toggle('active', on);
