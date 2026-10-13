@@ -12,7 +12,7 @@
   --accent: #ffb020;
   --on-accent: #000;
   --gutter: 20px;
-  --row: clamp(58px, calc(var(--vv-h, 100dvh) * .082), 80px);
+  --row: clamp(64px, calc(var(--vv-h, 100dvh) * .094), 92px);
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
   color-scheme: dark;
 }
@@ -323,6 +323,7 @@ button:disabled { cursor: default; }
   .mini { height: 28px; }
 }
 @media (max-height: 620px) {
+  :root { --row: 58px; }          /* very short screens: keep the grid compact */
   .now .cap { display: none; }
   .now { gap: 6px; padding-bottom: 4px; }
   .now h1 { -webkit-line-clamp: 1; font-size: 22px; }
