@@ -210,18 +210,26 @@ button:disabled { cursor: default; }
 .cell.station.all { grid-column: span 3; text-transform: none; }
 .cap.live { color: var(--accent); }
 
-/* play / pause / loading glyph states */
-.ico-pause, .spinner { display: none; }
+/* play / pause glyph */
+.ico-pause { display: none; }
 #play.playing .ico-play { display: none; }
 #play.playing .ico-pause { display: block; }
-#play.loading .ico-play, #play.loading .ico-pause { display: none; }
-#play.loading .spinner { display: block; }
-.spinner {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 2px solid #3a3a3c; border-top-color: var(--fg);
-  animation: spin .8s linear infinite;
+
+/* on-air light beside the station label: one soft pulse for both playing and loading, still and grey when paused */
+.now .cap { display: flex; align-items: center; gap: 9px; }
+.now .cap::before {
+  content: ""; flex: none;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #48484a;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+.now .cap.on-air::before {
+  background: var(--accent);
+  animation: on-air 2.2s ease-in-out infinite;
+}
+@keyframes on-air {
+  0%, 100% { opacity: .35; box-shadow: 0 0 0 0 rgba(255, 176, 32, 0); }
+  50%      { opacity: 1;   box-shadow: 0 0 9px 1px rgba(255, 176, 32, .45); }
+}
 
 /* ---------- sheets ----------
    Plain fixed overlays rather than <dialog>: iOS browsers mis-size dialogs against their bottom toolbar
@@ -315,6 +323,6 @@ button:disabled { cursor: default; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .overlay, .spinner { animation: none; }
+  .overlay, .now .cap.on-air::before { animation: none; }
   .cell { transition: none; }
 }

@@ -475,10 +475,12 @@ function render() {
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
   for (const [b, on] of [[ui.modeDemand, !live], [ui.modeLive, live]]) b.setAttribute('aria-pressed', on);
 
+  // One status for the whole UI: audible, or on its way to being audible (tuning in / buffering).
   const playing = has && !audio.paused;
-  ui.play.classList.toggle('playing', playing && !loading && !picking);
-  ui.play.classList.toggle('loading', loading || picking);
-  ui.play.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+  const active = playing || loading || picking;
+  ui.play.classList.toggle('playing', active);
+  ui.cap.classList.toggle('on-air', active);
+  ui.play.setAttribute('aria-label', active ? 'Pause' : 'Play');
   ui.play.disabled = !has;
   ui.back.disabled = ui.seek.disabled = !has || live;     // live radio can't be scrubbed
   ui.next.disabled = !source || live;
