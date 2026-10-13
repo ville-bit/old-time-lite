@@ -454,7 +454,7 @@ const isStandalone = navigator.standalone === true || matchMedia('(display-mode:
 const ui = {
   cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
-  sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlCap: $('#dl-cap'), dlVal: $('#dl-val'),
+  sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlVal: $('#dl-val'),
   shows: $('#shows'), showsVal: $('#shows-val'), tip: $('#tip'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
 };
 let seeking = false;
@@ -512,13 +512,12 @@ function renderSleep() {
 }
 
 function renderDownload() {
-  const has = !!current;
+  const has = !!current, done = dl.blob && dl.path === current?.path;
   ui.dl.disabled = !has;
-  ui.dl.classList.toggle('on', dl.busy || (dl.blob && dl.path === current?.path));
+  ui.dl.classList.toggle('on', dl.busy || !!done);
   ui.dl.style.setProperty('--dlp', dl.busy ? `${dl.pct}%` : '0%');
-  if (dl.busy) { ui.dlCap.textContent = 'Downloading'; ui.dlVal.textContent = dl.pct ? `${dl.pct}%` : '…'; }
-  else if (dl.blob && dl.path === current?.path) { ui.dlCap.textContent = 'Downloaded'; ui.dlVal.textContent = 'Save file'; }
-  else { ui.dlCap.textContent = 'Episode'; ui.dlVal.textContent = 'Download'; }
+  ui.dlVal.textContent = dl.busy ? (dl.pct ? `Downloading ${dl.pct}%` : 'Downloading…') : done ? 'Save file' : 'Download';
+  ui.dl.setAttribute('aria-label', dl.busy ? 'Cancel download' : done ? 'Save the downloaded episode' : 'Download this episode');
 }
 
 function updateProgress() {

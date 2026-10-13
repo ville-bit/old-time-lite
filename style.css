@@ -110,8 +110,9 @@ button:disabled { cursor: default; }
 /* ---------- progress ---------- */
 .progress { padding-bottom: 20px; }
 .times {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   font-size: 12px;
   color: var(--dim);
   font-variant-numeric: tabular-nums;
@@ -137,6 +138,21 @@ button:disabled { cursor: default; }
 .seek::-moz-range-track { height: 2px; background: #3a3a3c; border-radius: 1px; }
 .seek::-moz-range-progress { height: 2px; background: var(--fg); border-radius: 1px; }
 .seek::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: var(--fg); }
+
+/* small download pill, centred under the seek bar */
+.times span:last-child { text-align: right; }
+.mini {
+  position: relative; overflow: hidden;
+  height: 32px; padding: 0 14px;
+  border: 1px solid var(--line); border-radius: 999px;
+  color: var(--fg); font-size: 12px; font-weight: 500; letter-spacing: 0;
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+  transition: background-color .12s;
+}
+.mini:active:not(:disabled) { background: var(--cell-press); }
+.mini:disabled { color: #48484a; border-color: #1c1c1e; }
+.mini.on { color: var(--accent); border-color: #4a3710; }
+.mini::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: var(--dlp, 0%); background: var(--accent); }
 
 /* ---------- the grid ---------- */
 .grid {
@@ -178,8 +194,8 @@ button:disabled { cursor: default; }
 .cell.ctl { justify-content: center; align-items: center; text-align: center; padding: 0; }
 .cell.ctl svg { width: 30px; height: 30px; fill: currentColor; }
 
-/* utility row: two cells, each half the width */
-.cell.sel { grid-column: span 3; }
+/* utility row: Shows spans the full width, label left and value right */
+.cell.sel { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; min-height: 54px; padding-block: 0; }
 
 /* two-line cells: caption + value */
 .cell .cap, .cell .val { flex: none; }
@@ -194,12 +210,6 @@ button:disabled { cursor: default; }
 .cell.station.active:active { background: var(--accent); }
 .cell.station.all { grid-column: 1 / -1; text-transform: none; }
 .cap.live { color: var(--accent); }
-
-/* download progress along the bottom edge of its cell */
-#dl::after {
-  content: ""; position: absolute; left: 0; bottom: 0; height: 2px;
-  width: var(--dlp, 0%); background: var(--accent);
-}
 
 /* play / pause / loading glyph states */
 .ico-pause, .spinner { display: none; }
@@ -295,12 +305,13 @@ button:disabled { cursor: default; }
   .now { gap: 8px; padding-bottom: 16px; }
   .now h1 { -webkit-line-clamp: 3; font-size: 26px; }
   .progress { padding-bottom: 14px; }
-  .seek { height: 28px; }
+  .seek { height: 24px; }
+  .mini { height: 28px; }
 }
 @media (max-height: 620px) {
   .tip, .now .cap { display: none; }
   .now { gap: 6px; padding-bottom: 4px; }
-  .now h1 { -webkit-line-clamp: 2; }
+  .now h1 { -webkit-line-clamp: 1; font-size: 22px; }
   .progress { padding-bottom: 8px; }
 }
 

@@ -40,7 +40,11 @@
 
   <section class="progress">
     <input class="seek" id="seek" type="range" min="0" max="1000" step="1" value="0" aria-label="Position" disabled>
-    <div class="times"><span id="t-cur">0:00</span><span id="t-left">0:00</span></div>
+    <div class="times">
+      <span id="t-cur">0:00</span>
+      <button class="mini" id="dl" disabled><span id="dl-val">Download</span></button>
+      <span id="t-left">0:00</span>
+    </div>
   </section>
 
   <div class="grid" id="grid">
@@ -52,7 +56,6 @@
     </button>
     <button class="cell ctl" id="next" disabled aria-label="Another random episode">Next</button>
 
-    <button class="cell sel" id="dl" disabled><span class="cap" id="dl-cap">Episode</span><span class="val" id="dl-val">Download</span></button>
     <button class="cell sel" id="shows"><span class="cap">Shows</span><span class="val" id="shows-val">Choose</span></button>
 
     <!-- stations are inserted here -->
