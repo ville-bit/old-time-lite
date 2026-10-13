@@ -20,11 +20,17 @@
 <body>
 
 <main id="app">
-  <button class="link top" id="fs" hidden>Full screen</button>
-  <div class="seg" role="group" aria-label="Mode">
-    <button id="mode-demand" aria-pressed="true">On demand</button>
-    <button id="mode-live" aria-pressed="false">Live</button>
-  </div>
+  <header class="topbar">
+    <div class="seg" role="group" aria-label="Mode">
+      <button id="mode-demand" aria-pressed="true">On demand</button>
+      <button id="mode-live" aria-pressed="false">Live</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="topbtn" id="sleep" aria-label="Sleep timer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+      <span id="sleep-val">Sleep</span>
+    </button>
+  </header>
   <section class="now" aria-live="polite">
     <p class="cap" id="cap">Old Time Radio</p>
     <h1 id="title">Choose a station</h1>
@@ -46,7 +52,6 @@
     </button>
     <button class="cell ctl" id="next" disabled aria-label="Another random episode">Next</button>
 
-    <button class="cell sel" id="sleep"><span class="cap">Sleep</span><span class="val" id="sleep-val">Off</span></button>
     <button class="cell sel" id="dl" disabled><span class="cap" id="dl-cap">Episode</span><span class="val" id="dl-val">Download</span></button>
     <button class="cell sel" id="shows"><span class="cap">Shows</span><span class="val" id="shows-val">Choose</span></button>
 

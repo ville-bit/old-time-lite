@@ -40,8 +40,8 @@ button:disabled { cursor: default; }
   height: 100vh; height: 100dvh; height: var(--vv-h, 100dvh);
   max-width: 480px;
   margin: 0 auto;
-  /* top: room for the Live switch (38px) that is pinned in the corner */
-  padding: calc(max(16px, env(safe-area-inset-top)) + 38px + 14px) var(--gutter) max(20px, env(safe-area-inset-bottom));
+  /* top: room for the pinned top bar (40px) */
+  padding: calc(max(16px, env(safe-area-inset-top)) + 40px + 12px) var(--gutter) max(20px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
 }
@@ -55,18 +55,29 @@ button:disabled { cursor: default; }
   color: var(--dim);
 }
 .link { color: var(--accent); font-weight: 500; font-size: 17px; padding: 6px 2px; }
-#app > .link.top { position: absolute; top: max(16px, env(safe-area-inset-top)); right: var(--gutter); font-size: 13px; color: var(--dim); padding: 4px 0; }
 
-/* on demand / live switch, top left */
-#app > .seg {
-  position: absolute; top: max(16px, env(safe-area-inset-top)); left: var(--gutter);
-  display: flex; gap: 1px;
-  background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+/* top bar: mode switch on the left, full screen + sleep timer on the right */
+#app > .topbar {
+  position: absolute; top: max(16px, env(safe-area-inset-top)); left: var(--gutter); right: var(--gutter);
+  display: flex; align-items: center; gap: 8px;
 }
+.topbar .spacer { flex: 1; }
+.seg { display: flex; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .seg button { height: 38px; padding: 0 16px; background: var(--bg); color: var(--dim); font-size: 14px; font-weight: 500; }
 .seg button[aria-pressed="true"] { background: var(--cell-press); color: var(--fg); }
 .seg #mode-live[aria-pressed="true"] { color: var(--accent); }
 .seg button:active { background: var(--cell-press); }
+
+.topbtn {
+  display: flex; align-items: center; gap: 7px;
+  height: 40px; min-width: 40px; padding: 0 12px; justify-content: center;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+  color: var(--dim); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums;
+  transition: background-color .12s;
+}
+.topbtn:active { background: var(--cell-press); }
+.topbtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.topbtn.on { color: var(--accent); border-color: #4a3710; }
 
 /* ---------- now playing ---------- */
 .now {
@@ -130,7 +141,7 @@ button:disabled { cursor: default; }
 /* ---------- the grid ---------- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);     /* 6 = common base: 3 across (span 2) or 2 across (span 3) */
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -138,9 +149,12 @@ button:disabled { cursor: default; }
   overflow: hidden;
 }
 .grid.cols2 { grid-template-columns: repeat(2, 1fr); }
+.grid.cols3 { grid-template-columns: repeat(3, 1fr); }
+.grid.cols2 .cell, .grid.cols3 .cell { grid-column: auto; }
 
 .cell {
   position: relative;
+  grid-column: span 2;
   min-height: var(--row);          /* cells grow to fit their text rather than clipping it */
   background: var(--cell);
   display: flex;
@@ -163,6 +177,9 @@ button:disabled { cursor: default; }
 /* transport row: centred glyphs */
 .cell.ctl { justify-content: center; align-items: center; text-align: center; padding: 0; }
 .cell.ctl svg { width: 30px; height: 30px; fill: currentColor; }
+
+/* utility row: two cells, each half the width */
+.cell.sel { grid-column: span 3; }
 
 /* two-line cells: caption + value */
 .cell .cap, .cell .val { flex: none; }

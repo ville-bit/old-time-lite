@@ -337,6 +337,8 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+// the top-bar button is short on room: just "Sleep", the countdown, or "Episode"
+const sleepButtonLabel = () => (!sleep ? 'Sleep' : sleep.kind === 'episode' ? 'Episode' : sleepLabel());
 const sleepLabel = () => {
   if (!sleep) return 'Off';
   if (sleep.kind === 'episode') return 'End of episode';
@@ -444,24 +446,16 @@ let sheetOpener = null;
 function openSheet(o) { sheetOpener = document.activeElement; o.hidden = false; syncViewport(); o.querySelector('.panel button, .panel [tabindex]')?.focus({ preventScroll: true }); }
 function closeSheet(o) { o.hidden = true; sheetOpener?.focus?.({ preventScroll: true }); }
 
-// iPhone browsers don't offer the Fullscreen API for pages; there the route is Safari > Add to Home Screen.
-const canFullscreen = !!(document.fullscreenEnabled && document.documentElement.requestFullscreen);
+// Only used for the Home Screen tip on the idle screen.
 const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const isStandalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
-function toggleFullscreen() {
-  if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {});
-}
-function renderFullscreen() {
-  ui.fs.hidden = !canFullscreen || isStandalone;
-  ui.fs.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
-}
 
 // ---------- rendering ----------
 const ui = {
   cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
   sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlCap: $('#dl-cap'), dlVal: $('#dl-val'),
-  shows: $('#shows'), showsVal: $('#shows-val'), fs: $('#fs'), tip: $('#tip'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
+  shows: $('#shows'), showsVal: $('#shows-val'), tip: $('#tip'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
 };
 let seeking = false;
 
@@ -506,7 +500,7 @@ function render() {
 }
 
 function renderSleep() {
-  ui.sleepVal.textContent = sleepLabel();
+  ui.sleepVal.textContent = sleepButtonLabel();
   ui.sleep.classList.toggle('on', !!sleep);
   const sub = $('#sleep-sub');
   sub.textContent = sleep ? (sleep.kind === 'episode' ? 'Stops when this episode ends' : `Stops in ${sleepLabel()}`) : 'Playback stops automatically';
@@ -613,8 +607,6 @@ function wire() {
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.overlay:not([hidden])').forEach(closeSheet); });
 
-  ui.fs.addEventListener('click', toggleFullscreen);
-  document.addEventListener('fullscreenchange', renderFullscreen);
 
   // scrubbing: preview while dragging, commit on release
   const dur = () => (Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : current?.dur || 0);
@@ -643,7 +635,6 @@ async function boot() {
   catalog.shows.forEach((s) => showById.set(s.id, s));
   mix = mix.filter((id) => showById.has(id));
   buildStations(); buildSleepSheet(); buildShowsSheet();
-  renderFullscreen();
   render();
 }
 boot();
