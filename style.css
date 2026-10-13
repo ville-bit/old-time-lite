@@ -142,17 +142,18 @@ button:disabled { cursor: default; }
 
 /* small download pill, at the right end of the show / length line */
 .mini {
-  position: relative; overflow: hidden; flex: none; margin-left: auto;
+  position: relative; overflow: hidden; flex: none;
+  margin-left: auto; margin-right: -14px;        /* no outline: the text sits flush with the gutter, the tap area reaches past it */
   height: 32px; padding: 0 14px;
-  border: var(--hair) solid var(--line); border-radius: 999px;
+  border: 0; border-radius: 999px;
   color: var(--fg); font-size: 12px; font-weight: 500; letter-spacing: 0;
   white-space: nowrap; font-variant-numeric: tabular-nums;
   transition: background-color .12s;
 }
 .mini:active:not(:disabled) { background: var(--cell-press); }
-.mini:disabled { color: #48484a; border-color: #1c1c1e; }
-.mini.on { color: var(--accent); border-color: #4a3710; }
-.mini::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: var(--dlp, 0%); background: var(--accent); }
+.mini:disabled { color: #48484a; }
+.mini.on { color: var(--accent); }
+.mini::after { content: ""; position: absolute; left: 14px; bottom: 3px; height: 2px; width: calc((100% - 28px) * var(--dlp, 0)); background: var(--accent); }
 
 /* the main grid runs edge to edge and down to the bottom of the screen; only its top rule remains */
 #grid { margin-inline: calc(var(--gutter) * -1); border-width: var(--hair) 0 0; }

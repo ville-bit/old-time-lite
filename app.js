@@ -523,7 +523,7 @@ function renderDownload() {
   const has = !!current, done = dl.blob && dl.path === current?.path;
   ui.dl.disabled = !has;
   ui.dl.classList.toggle('on', dl.busy || !!done);
-  ui.dl.style.setProperty('--dlp', dl.busy ? `${dl.pct}%` : '0%');
+  ui.dl.style.setProperty('--dlp', dl.busy ? dl.pct / 100 : 0);
   ui.dlVal.textContent = dl.busy ? (dl.pct ? `${dl.pct}%` : '…') : done ? 'Save file' : 'Download';
   ui.dl.setAttribute('aria-label', dl.busy ? 'Cancel download' : done ? 'Save the downloaded episode' : 'Download this episode');
 }
