@@ -193,8 +193,8 @@ button:disabled { cursor: default; }
 .cell.ctl { justify-content: center; align-items: center; text-align: center; padding: 0; }
 .cell.ctl svg { width: 30px; height: 30px; fill: currentColor; }
 
-/* utility row: Shows spans the full width, label left and value right */
-.cell.sel { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; min-height: 54px; padding-block: 0; }
+/* Shows shares the last row with All shows: half the width each */
+.cell.sel { grid-column: span 3; }
 
 /* two-line cells: caption + value */
 .cell .cap, .cell .val { flex: none; }
@@ -207,7 +207,7 @@ button:disabled { cursor: default; }
 .cell.station { justify-content: flex-end; text-transform: capitalize; }
 .cell.station.active, .cell.pick.active { background: var(--accent); color: var(--on-accent); }
 .cell.station.active:active { background: var(--accent); }
-.cell.station.all { grid-column: 1 / -1; text-transform: none; }
+.cell.station.all { grid-column: span 3; text-transform: none; }
 .cap.live { color: var(--accent); }
 
 /* play / pause / loading glyph states */
