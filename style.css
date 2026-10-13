@@ -2,15 +2,19 @@
 
 :root {
   --bg: #000;
+  --panel: #0c0c0e;
   --cell: #000;
   --cell-press: #1c1c1e;
   --fg: #f5f5f7;
   --dim: #8e8e93;
-  --line: #2c2c2e;
+  --line: #2c2c2e;       /* grid lines */
+  --rule: #1c1c1e;       /* section rules */
+  --margin: #151517;     /* faint margin lines */
   --accent: #ffb020;
   --on-accent: #000;
-  --radius: 16px;
-  --row: clamp(56px, 8.2dvh, 72px);
+  --gutter: 16px;        /* margin lines sit here */
+  --pad: 28px;           /* text hangs 12px inside the margin lines */
+  --row: clamp(58px, calc(var(--vv-h, 100dvh) * .082), 76px);
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
   color-scheme: dark;
 }
@@ -24,17 +28,30 @@ body {
   font: 400 17px/1.3 var(--font);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
+  overflow: hidden;
 }
-button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; border-radius: 0; }
 button:disabled { cursor: default; }
+[hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
+/* Faint vertical margin lines at the gutters. Content sits above them; opaque grid cells hide them. */
+#app, .panel { position: relative; }
+#app::before, .panel::before {
+  content: "";
+  position: absolute; inset: 0 var(--gutter);
+  border-inline: 1px solid var(--margin);
+  pointer-events: none;
+}
+#app > *, .panel > * { position: relative; }
+
 /* ---------- page ---------- */
+/* Height comes from the visual viewport (set in app.js) so browser toolbars at the bottom don't hide anything. */
 #app {
-  height: 100vh; height: 100dvh;
+  height: 100vh; height: 100dvh; height: var(--vv-h, 100dvh);
   max-width: 480px;
   margin: 0 auto;
-  padding: max(20px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  padding: max(24px, env(safe-area-inset-top)) 0 max(12px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
 }
@@ -47,6 +64,8 @@ button:disabled { cursor: default; }
   text-transform: uppercase;
   color: var(--dim);
 }
+.link { color: var(--accent); font-weight: 500; font-size: 17px; padding: 6px 0; }
+#app > .link.top { position: absolute; top: max(14px, env(safe-area-inset-top)); right: var(--pad); font-size: 13px; color: var(--dim); padding: 4px 0; }
 
 /* ---------- now playing ---------- */
 .now {
@@ -55,8 +74,8 @@ button:disabled { cursor: default; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 10px;
-  padding-bottom: 20px;
+  gap: 12px;
+  padding: 0 var(--pad) 28px;
 }
 .now h1 {
   margin: 0;
@@ -72,9 +91,10 @@ button:disabled { cursor: default; }
 }
 .meta { margin: 0; min-height: 1.3em; color: var(--dim); font-size: 15px; }
 .meta.alert { color: var(--accent); }
+.tip { margin: 4px 0 0; color: #636366; font-size: 13px; line-height: 1.35; }
 
 /* ---------- progress ---------- */
-.progress { padding-bottom: 14px; }
+.progress { padding: 0 var(--pad) 14px; }
 .times {
   display: flex;
   justify-content: space-between;
@@ -92,7 +112,7 @@ button:disabled { cursor: default; }
 .seek:disabled::-webkit-slider-thumb { opacity: 0; }
 .seek:disabled::-moz-range-thumb { opacity: 0; }
 .seek::-webkit-slider-runnable-track {
-  height: 2px; border-radius: 1px;
+  height: 2px;
   background: linear-gradient(to right, var(--fg) var(--p), #3a3a3c var(--p));
 }
 .seek::-webkit-slider-thumb {
@@ -100,19 +120,17 @@ button:disabled { cursor: default; }
   width: 14px; height: 14px; margin-top: -6px;
   border-radius: 50%; background: var(--fg); border: 0;
 }
-.seek::-moz-range-track { height: 2px; background: #3a3a3c; border-radius: 1px; }
-.seek::-moz-range-progress { height: 2px; background: var(--fg); border-radius: 1px; }
+.seek::-moz-range-track { height: 2px; background: #3a3a3c; }
+.seek::-moz-range-progress { height: 2px; background: var(--fg); }
 .seek::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: var(--fg); }
 
-/* ---------- the grid ---------- */
+/* ---------- the grid: full width, square ---------- */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  border-block: 1px solid var(--line);
 }
 .grid.cols2 { grid-template-columns: repeat(2, 1fr); }
 
@@ -125,7 +143,7 @@ button:disabled { cursor: default; }
   justify-content: space-between;
   align-items: flex-start;
   text-align: left;
-  padding: 10px 14px 11px;
+  padding: 12px 12px 13px var(--pad);
   font-size: 17px;
   font-weight: 500;
   letter-spacing: -.01em;
@@ -138,7 +156,7 @@ button:disabled { cursor: default; }
 .cell:disabled .cap { color: #3a3a3c; }
 
 /* transport row: centred glyphs */
-.cell.ctl { justify-content: center; align-items: center; text-align: center; }
+.cell.ctl { justify-content: center; align-items: center; text-align: center; padding: 0; }
 .cell.ctl svg { width: 30px; height: 30px; fill: currentColor; }
 
 /* two-line cells: caption + value */
@@ -146,7 +164,7 @@ button:disabled { cursor: default; }
 .cell.on .val { color: var(--accent); }
 .cell.sel .val { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
-/* stations: single line, vertically centred */
+/* stations */
 .cell.station { justify-content: flex-end; text-transform: capitalize; }
 .cell.station.active, .cell.pick.active { background: var(--accent); color: var(--on-accent); }
 .cell.station.active:active { background: var(--accent); }
@@ -170,59 +188,68 @@ button:disabled { cursor: default; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ---------- sheets ---------- */
-dialog.sheet {
-  position: fixed; inset: auto 0 0 0;
+/* ---------- sheets ----------
+   Plain fixed overlays rather than <dialog>: iOS browsers mis-size dialogs against their bottom toolbar
+   and glitch when a scrolling list sits inside an animated dialog. No transforms here on purpose. */
+.overlay {
+  position: fixed; left: 0; right: 0;
+  top: var(--vv-top, 0px); height: var(--vv-h, 100dvh);
+  z-index: 10;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: rgba(0, 0, 0, .62);
+  animation: fade .18s ease-out;
+}
+@keyframes fade { from { opacity: 0; } }
+.overlay .panel {
   width: 100%; max-width: 480px; margin: 0 auto;
-  padding: 18px 16px max(16px, env(safe-area-inset-bottom));
-  border: 0; border-radius: 22px 22px 0 0;
-  background: #111113; color: var(--fg);
-  animation: up .22s ease-out;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  padding: 20px 0 max(12px, env(safe-area-inset-bottom));
 }
-dialog.sheet::backdrop { background: rgba(0, 0, 0, .62); }
-@keyframes up { from { transform: translateY(28px); opacity: 0; } }
+.overlay .panel::before { border-color: #18181a; }
 
-.sheet-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-.sheet-sub { margin: 4px 0 0; font-size: 17px; font-variant-numeric: tabular-nums; }
+.sheet-head { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 var(--pad) 18px; }
+.sheet-sub { margin: 6px 0 0; font-size: 17px; font-variant-numeric: tabular-nums; }
 .sheet-sub.on { color: var(--accent); }
-.link { color: var(--accent); font-weight: 500; font-size: 17px; padding: 6px 2px; }
 
-.cell.pick { height: 60px; justify-content: center; }
-.sheet .grid { --line: #2c2c2e; background: var(--line); }
-.sheet .cell { --cell: #111113; background: #111113; }
-.sheet .cell:active:not(:disabled) { background: #1c1c1e; }
-.sheet .cell.pick.active { background: var(--accent); }
+.panel .grid { background: var(--line); }
+.panel .cell { --cell: var(--panel); background: var(--panel); }
+.panel .cell:active:not(:disabled) { background: var(--cell-press); }
+.panel .cell.pick.active { background: var(--accent); }
+.cell.pick { height: 62px; justify-content: center; }
 
-/* shows picker */
-dialog.sheet.full {
-  inset: 0; height: 100dvh; max-height: 100dvh;
-  border-radius: 0; padding: max(14px, env(safe-area-inset-top)) 0 max(12px, env(safe-area-inset-bottom));
-  background: var(--bg);
+/* shows picker: full screen */
+.overlay.full { background: var(--bg); animation: none; justify-content: stretch; }
+.overlay.full .panel {
+  flex: 1; min-height: 0; max-width: 480px;
+  display: flex; flex-direction: column;
+  background: var(--bg); border: 0;
+  padding: max(16px, env(safe-area-inset-top)) 0 max(12px, env(safe-area-inset-bottom));
 }
-dialog.sheet.full[open] { display: flex; flex-direction: column; }
-.sheet-bar { display: flex; align-items: center; gap: 14px; padding: 0 16px 12px; }
+.overlay.full .panel::before { border-color: var(--margin); }
+.sheet-bar { display: flex; align-items: center; gap: 16px; padding: 0 var(--pad) 16px var(--gutter); }
 #q {
-  flex: 1; min-width: 0; height: 40px;
-  border: 1px solid var(--line); border-radius: 10px;
-  background: #111113; color: var(--fg);
-  padding: 0 12px; font: 400 16px var(--font);
+  flex: 1; min-width: 0; height: 44px;
+  border: 1px solid var(--line); border-radius: 0;
+  background: var(--panel); color: var(--fg);
+  padding: 0 14px; font: 400 16px var(--font);
   -webkit-appearance: none; appearance: none;
 }
 #q::placeholder { color: var(--dim); }
-#q:focus { outline: none; border-color: #48484a; }
+#q:focus { outline: none; border-color: #636366; }
 
-.list { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; border-top: 1px solid var(--line); overscroll-behavior: contain; }
+.list { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; border-top: 1px solid var(--line); overscroll-behavior: contain; }
 .row {
-  display: flex; align-items: center; gap: 14px;
-  min-height: 52px; padding: 8px 16px;
-  border-bottom: 1px solid var(--line);
+  position: relative;
+  display: flex; align-items: center; gap: 16px;
+  min-height: 56px; padding: 10px var(--pad);
+  border-bottom: 1px solid var(--rule);
   cursor: pointer;
 }
-.row[hidden] { display: none; }
-.row:active { background: #111113; }
+.row:active { background: var(--panel); }
 .row input { position: absolute; opacity: 0; pointer-events: none; }
 .row .box {
-  flex: none; width: 22px; height: 22px; border-radius: 6px;
+  flex: none; width: 22px; height: 22px;
   border: 1.5px solid #48484a;
   display: grid; place-items: center;
 }
@@ -232,15 +259,14 @@ dialog.sheet.full[open] { display: flex; flex-direction: column; }
 .row input:focus-visible + .box { outline: 2px solid var(--accent); outline-offset: 2px; }
 .row .name { flex: 1; min-width: 0; font-size: 17px; }
 .row .n { color: var(--dim); font-size: 13px; font-variant-numeric: tabular-nums; }
-.empty { padding: 28px 16px; color: var(--dim); }
+.empty { padding: 28px var(--pad); color: var(--dim); }
 
-.sheet-foot { margin: 12px 16px 0; }
-.sheet-foot .cell { height: 56px; justify-content: center; align-items: center; text-align: center; }
+.sheet-foot .cell { height: 60px; justify-content: center; align-items: center; text-align: center; padding: 0; }
 .sheet-foot .cell.go { grid-column: span 2; background: var(--accent); color: var(--on-accent); font-weight: 600; }
 .sheet-foot .cell.go:disabled { background: #1c1c1e; color: #48484a; }
 .sheet-foot .cell.go:active:not(:disabled) { background: #ffc24d; }
 
 @media (prefers-reduced-motion: reduce) {
-  dialog.sheet, .spinner { animation: none; }
+  .overlay, .spinner { animation: none; }
   .cell { transition: none; }
 }

@@ -288,12 +288,42 @@ function bindSession() {
   set('seekto', (d) => { if (d.seekTime != null) audio.currentTime = d.seekTime; });
 }
 
+// ---------- viewport, sheets, full screen ----------
+// Mobile browsers with a bottom toolbar report a layout height taller than what is visible, which hides the bottom
+// of the page. The visual viewport is the visible area, so the layout is sized from that.
+function syncViewport() {
+  const vv = window.visualViewport, root = document.documentElement.style;
+  root.setProperty('--vv-h', (vv ? vv.height : innerHeight) + 'px');
+  root.setProperty('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
+}
+syncViewport();
+window.visualViewport?.addEventListener('resize', syncViewport);
+window.visualViewport?.addEventListener('scroll', syncViewport);
+addEventListener('resize', syncViewport);
+addEventListener('orientationchange', syncViewport);
+
+let sheetOpener = null;
+function openSheet(o) { sheetOpener = document.activeElement; o.hidden = false; syncViewport(); o.querySelector('.panel button, .panel [tabindex]')?.focus({ preventScroll: true }); }
+function closeSheet(o) { o.hidden = true; sheetOpener?.focus?.({ preventScroll: true }); }
+
+// iPhone browsers don't offer the Fullscreen API for pages; there the route is Safari > Add to Home Screen.
+const canFullscreen = !!(document.fullscreenEnabled && document.documentElement.requestFullscreen);
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+function toggleFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(() => {});
+}
+function renderFullscreen() {
+  ui.fs.hidden = !canFullscreen || isStandalone;
+  ui.fs.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
+}
+
 // ---------- rendering ----------
 const ui = {
   cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
   sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlCap: $('#dl-cap'), dlVal: $('#dl-val'),
-  shows: $('#shows'), showsVal: $('#shows-val'),
+  shows: $('#shows'), showsVal: $('#shows-val'), fs: $('#fs'), tip: $('#tip'),
 };
 let seeking = false;
 
@@ -312,6 +342,7 @@ function render() {
     ui.meta.textContent = message || (loading ? 'Loading…' : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
   }
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
+  ui.tip.hidden = !(isIOS && !isStandalone && !has && !picking);
 
   const playing = has && !audio.paused;
   ui.play.classList.toggle('playing', playing && !loading && !picking);
@@ -381,7 +412,7 @@ function buildSleepSheet() {
   for (const [label, v] of SLEEP_OPTIONS) {
     const b = el('button', 'cell pick', label);
     b.dataset.v = v;
-    b.addEventListener('click', () => { setSleep(v); $('#sleep-sheet').close(); });
+    b.addEventListener('click', () => { setSleep(v); closeSheet($('#sleep-sheet')); });
     grid.append(b);
   }
 }
@@ -415,7 +446,7 @@ function buildShowsSheet() {
   clear.addEventListener('click', () => { sel.clear(); rows.forEach((r) => (r.firstChild.checked = false)); sync(); });
   shuffle.addEventListener('click', () => {
     mix = [...sel]; store.set('mix', mix);
-    $('#shows-sheet').close();
+    closeSheet($('#shows-sheet'));
     start({ kind: 'mix', ids: mix });
   });
   sync();
@@ -426,12 +457,16 @@ function wire() {
   ui.back.addEventListener('click', () => skip(-SKIP_BACK));
   ui.next.addEventListener('click', () => { if (source) playRandom(); });
   ui.dl.addEventListener('click', download);
-  ui.sleep.addEventListener('click', () => $('#sleep-sheet').showModal());
-  ui.shows.addEventListener('click', () => { $('#shows-sheet').showModal(); $('#q').blur(); });   // no keyboard until asked
+  ui.sleep.addEventListener('click', () => openSheet($('#sleep-sheet')));
+  ui.shows.addEventListener('click', () => openSheet($('#shows-sheet')));
 
-  for (const d of document.querySelectorAll('dialog')) {
-    d.addEventListener('click', (e) => { if ((e.target === d && !d.classList.contains('full')) || e.target.closest('[data-close]')) d.close(); });
+  for (const o of document.querySelectorAll('.overlay')) {
+    o.addEventListener('click', (e) => { if ((e.target === o && !o.classList.contains('full')) || e.target.closest('[data-close]')) closeSheet(o); });
   }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.overlay:not([hidden])').forEach(closeSheet); });
+
+  ui.fs.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', renderFullscreen);
 
   // scrubbing: preview while dragging, commit on release
   const dur = () => (Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : current?.dur || 0);
@@ -460,6 +495,7 @@ async function boot() {
   catalog.shows.forEach((s) => showById.set(s.id, s));
   mix = mix.filter((id) => showById.has(id));
   buildStations(); buildSleepSheet(); buildShowsSheet();
+  renderFullscreen();
   render();
 }
 boot();

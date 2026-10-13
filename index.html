@@ -20,10 +20,12 @@
 <body>
 
 <main id="app">
+  <button class="link top" id="fs" hidden>Full screen</button>
   <section class="now" aria-live="polite">
     <p class="cap" id="cap">Old Time Radio</p>
     <h1 id="title">Choose a station</h1>
     <p class="meta" id="meta"></p>
+    <p class="tip" id="tip" hidden>For full screen, open this page in Safari, tap Share, then Add to Home Screen.</p>
   </section>
 
   <section class="progress">
@@ -48,28 +50,32 @@
   </div>
 </main>
 
-<dialog class="sheet" id="sleep-sheet" aria-labelledby="sleep-h">
-  <div class="sheet-head">
-    <div>
-      <p class="cap" id="sleep-h">Sleep timer</p>
-      <p class="sheet-sub" id="sleep-sub">Playback stops automatically</p>
+<div class="overlay" id="sleep-sheet" role="dialog" aria-modal="true" aria-labelledby="sleep-h" hidden>
+  <div class="panel">
+    <div class="sheet-head">
+      <div>
+        <p class="cap" id="sleep-h">Sleep timer</p>
+        <p class="sheet-sub" id="sleep-sub">Playback stops automatically</p>
+      </div>
+      <button class="link" data-close>Close</button>
     </div>
-    <button class="link" data-close>Close</button>
+    <div class="grid cols2" id="sleep-grid"></div>
   </div>
-  <div class="grid cols2" id="sleep-grid"></div>
-</dialog>
+</div>
 
-<dialog class="sheet full" id="shows-sheet" aria-label="Shows">
-  <div class="sheet-bar">
-    <input id="q" type="search" placeholder="Search shows" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search shows">
-    <button class="link" data-close>Done</button>
+<div class="overlay full" id="shows-sheet" role="dialog" aria-modal="true" aria-label="Shows" hidden>
+  <div class="panel">
+    <div class="sheet-bar">
+      <input id="q" type="search" placeholder="Search shows" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search shows">
+      <button class="link" data-close>Done</button>
+    </div>
+    <div class="list" id="show-list" role="group" aria-label="Shows"></div>
+    <div class="sheet-foot grid cols3">
+      <button class="cell" id="clear">Clear</button>
+      <button class="cell go" id="shuffle" disabled>Shuffle</button>
+    </div>
   </div>
-  <div class="list" id="show-list" role="group" aria-label="Shows"></div>
-  <div class="sheet-foot grid cols3">
-    <button class="cell" id="clear">Clear</button>
-    <button class="cell go" id="shuffle" disabled>Shuffle</button>
-  </div>
-</dialog>
+</div>
 
 <script type="module" src="app.js"></script>
 </body>
