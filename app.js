@@ -463,7 +463,7 @@ function render() {
   if (picking) {
     ui.cap.textContent = where; ui.title.textContent = 'Tuning in…'; ui.meta.textContent = '';
   } else if (!has) {
-    ui.cap.textContent = 'Old Time Radio';
+    ui.cap.textContent = '';
     ui.title.textContent = messageIsAlert && message !== SLEEP_ENDED ? 'Something went wrong' : 'Choose a station';
     ui.meta.textContent = message;
   } else {
@@ -471,6 +471,7 @@ function render() {
     ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
   }
   ui.cap.classList.toggle('live', live && !!source && (has || picking));
+  ui.cap.hidden = !ui.cap.textContent;            // no label until a station is chosen
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
   for (const [b, on] of [[ui.modeDemand, !live], [ui.modeLive, live]]) b.setAttribute('aria-pressed', on);
 
