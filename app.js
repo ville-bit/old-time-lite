@@ -478,7 +478,7 @@ function render() {
     ui.meta.textContent = message || (catalog ? `${catalog.shows.length} shows · ${catalog.shows.reduce((n, s) => n + s.n, 0).toLocaleString('en-US')} episodes` : '');
   } else {
     ui.cap.textContent = where; ui.title.textContent = current.title;
-    ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, current.year || '', `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
+    ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
   }
   ui.cap.classList.toggle('live', live && !!source && (has || picking));
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
