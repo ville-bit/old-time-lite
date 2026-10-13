@@ -194,14 +194,14 @@ button:disabled { cursor: default; }
 .cell.ctl svg { width: 30px; height: 30px; fill: currentColor; }
 
 /* Shows shares the last row with All shows: half the width each */
-.cell.sel { grid-column: span 3; }
+.cell.sel { grid-column: span 3; justify-content: flex-end; }
 
 /* two-line cells: caption + value */
 .cell .cap, .cell .val { flex: none; }
 .cell .cap { line-height: 1.15; }
 .cell .val { line-height: 1.25; font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .cell.on .val { color: var(--accent); }
-.cell.sel .val { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.cell.sel .val { line-height: inherit; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
 /* stations */
 .cell.station { justify-content: flex-end; text-transform: capitalize; }
