@@ -22,7 +22,10 @@ let catalog = null;                 // { stations: [{id, shows[]}], shows: [{id,
 const showById = new Map();
 const episodes = new Map();         // showId -> [[title, "item/file.mp3", seconds, year], ...]
 
-let source = null;                  // {kind:'station', id} | {kind:'mix', ids:[]}
+let source = null;                  // {kind:'station', id} ('all' = every show) | {kind:'mix', ids:[]}
+let live = store.get('live', false);   // live broadcast mode: stations follow a shared schedule
+let liveAt = null;                  // where the current programme sits in the schedule: {day, idx, start}
+let pendingOffset = 0;              // seconds to jump to once the episode's metadata is in
 let current = null;                 // the episode now loaded
 let picking = false;                // choosing / fetching the next episode
 let loading = false;                // buffering the current one
@@ -91,9 +94,12 @@ async function loadShow(id) {
   return episodes.get(id);
 }
 const stationShows = (id) => catalog.stations.find((s) => s.id === id)?.shows ?? [];
+const idsOf = (src) => src.kind === 'mix' ? src.ids : src.id === 'all' ? catalog.shows.map((s) => s.id) : stationShows(src.id);
+const keyOf = (src) => src.kind === 'mix' ? 'mix:' + [...src.ids].sort().join(',') : 'station:' + src.id;
+const labelOf = (src) => src.kind === 'mix' ? `${src.ids.length} show${src.ids.length === 1 ? '' : 's'}, shuffled` : src.id === 'all' ? 'All shows' : cap(src.id);
 
 async function pickEpisode() {
-  const ids = source.kind === 'station' ? stationShows(source.id) : source.ids;
+  const ids = idsOf(source);
   let showId = rand(ids);
   if (ids.length > 1 && current && showId === current.showId) showId = rand(ids.filter((i) => i !== current.showId));
   const list = await loadShow(showId);
@@ -106,12 +112,129 @@ async function pickEpisode() {
   return { showId, show: showById.get(showId).name, title: e[0], path: e[1], dur: e[2], year: e[3] };
 }
 
+// ---------- live schedule ----------
+// No server: each station's programme for a UTC day is generated from a seed (station + date), so every device on the
+// same station hears the same thing at the same moment. Joining means finding what is on now and seeking into it.
+const DAY = 86400, LINEUP = 16;   // a day draws on a rotating lineup of up to 16 shows, which keeps the fetches small
+
+function rng(seed) {              // mulberry32
+  let a = parseInt(hash(seed), 36) >>> 0;
+  return () => {
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const schedules = new Map();      // "key@day" -> Promise<[{start, ep}]>
+function daySchedule(src, day) {
+  const k = `${keyOf(src)}@${day}`;
+  if (!schedules.has(k)) schedules.set(k, buildDay(src, day, k).catch((e) => { schedules.delete(k); throw e; }));
+  return schedules.get(k);
+}
+
+async function buildDay(src, day, seed) {
+  const r = rng(seed);
+  const pool = [...idsOf(src)].sort();
+  for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+  const lineup = pool.slice(0, LINEUP);
+  const lists = (await Promise.all(lineup.map(async (id) => [id, (await loadShow(id)).filter((e) => e[2] > 0)]))).filter(([, l]) => l.length);
+  if (!lists.length) throw new Error('empty');
+
+  const out = [], used = new Set();
+  let t = 0, last = -1;
+  while (t < DAY) {
+    const remaining = DAY - t;
+    let pick = null;
+    for (const allowRepeat of [false, true]) {
+      for (let i = 0; i < 12 && !pick; i++) {
+        let si = Math.floor(r() * lists.length);
+        if (lists.length > 1 && si === last) si = (si + 1 + Math.floor(r() * (lists.length - 1))) % lists.length;
+        const [id, list] = lists[si], e = list[Math.floor(r() * list.length)];
+        if (e[2] <= remaining && (allowRepeat || !used.has(e[1]))) pick = { si, id, e };
+      }
+      if (pick) break;
+    }
+    if (!pick) break;               // nothing fits what's left of the day; the short tail rolls into tomorrow
+    used.add(pick.e[1]); last = pick.si;
+    out.push({ start: t, ep: { showId: pick.id, show: showById.get(pick.id).name, title: pick.e[0], path: pick.e[1], dur: pick.e[2], year: pick.e[3] } });
+    t += pick.e[2];
+  }
+  return out;
+}
+
+async function locate(src, ms = Date.now()) {
+  const day = Math.floor(ms / 1000 / DAY), sec = ms / 1000 - day * DAY;
+  const sched = await daySchedule(src, day);
+  let idx = -1;
+  for (let k = 0; k < sched.length && sched[k].start <= sec; k++) idx = k;
+  if (idx >= 0 && sec < sched[idx].start + sched[idx].ep.dur) return { day, idx, item: sched[idx], offset: sec - sched[idx].start };
+  return { day: day + 1, idx: 0, item: (await daySchedule(src, day + 1))[0], offset: 0 };   // in the tail gap before midnight
+}
+async function after(src, day, idx) {
+  const sched = await daySchedule(src, day);
+  if (idx + 1 < sched.length) return { day, idx: idx + 1, item: sched[idx + 1] };
+  return { day: day + 1, idx: 0, item: (await daySchedule(src, day + 1))[0] };
+}
+
+function playLive({ day, idx, item, offset }) {
+  liveAt = { day, idx, start: day * DAY + item.start };
+  load(item.ep, offset);
+}
+function liveFailed(mine) {
+  if (mine !== token) return;
+  picking = false;
+  say("Couldn't reach the schedule. Check your connection.", { alert: true });
+  render();
+}
+async function tuneLive() {         // join whatever is on right now
+  const mine = ++token;
+  cancelDownload();
+  picking = true; say('');
+  render();
+  try { const loc = await locate(source); if (mine === token) playLive(loc); } catch { liveFailed(mine); }
+}
+async function advanceLive() {      // the programme ended: next one in the schedule
+  const mine = ++token;
+  picking = true;
+  render();
+  try {
+    const nx = await after(source, liveAt.day, liveAt.idx);
+    if (mine !== token) return;
+    const offset = Math.max(0, Date.now() / 1000 - (nx.day * DAY + nx.item.start));
+    if (offset >= nx.item.ep.dur - 5) return tuneLive();        // far behind (a long stall): jump to what's on now
+    playLive({ ...nx, offset });
+  } catch { liveFailed(mine); }
+}
+async function resumeLive() {       // pausing live radio is muting it: coming back means rejoining the broadcast
+  const mine = ++token;
+  try {
+    const loc = await locate(source);
+    if (mine !== token) return;
+    if (current && loc.item.ep.path === current.path && !audio.src.startsWith('blob:')) {
+      liveAt = { day: loc.day, idx: loc.idx, start: loc.day * DAY + loc.item.start };
+      audio.currentTime = loc.offset;
+      audio.play().catch(() => {});
+    } else playLive(loc);
+  } catch { liveFailed(mine); }
+}
+const nextProgramme = () => (live && liveAt && source ? advanceLive() : playRandom());
+
+function setLive(on) {
+  if (live === on) return;
+  live = on; store.set('live', on);
+  if (!on) liveAt = null;
+  else if (source) { unlock(); tuneLive(); return; }
+  render();
+}
+
 // ---------- playback ----------
 function start(src) {
   unlock();
   source = src;
   errorSkips = 0;
-  playRandom();
+  if (live) tuneLive(); else playRandom();
 }
 
 async function playRandom() {
@@ -131,10 +254,11 @@ async function playRandom() {
   }
 }
 
-function load(ep) {
+function load(ep, offset = 0) {
   current = ep;
   picking = false;
   loading = true;
+  pendingOffset = offset > 1 ? offset : 0;
   audio.src = urlFor(ep.path);
   const p = audio.play();
   if (p) p.catch((err) => {
@@ -150,10 +274,12 @@ function load(ep) {
 function togglePlay() {
   if (!current) return;
   if (messageIsAlert) say('');
-  if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+  if (!audio.paused) audio.pause();
+  else if (live && liveAt) resumeLive();
+  else audio.play().catch(() => {});
 }
 function skip(delta) {
-  if (!current) return;
+  if (!current || live) return;
   audio.currentTime = Math.max(0, Math.min((audio.duration || Infinity) - 1, audio.currentTime + delta));
 }
 
@@ -162,18 +288,22 @@ audio.addEventListener('waiting', () => { if (current) { loading = true; render(
 audio.addEventListener('canplay', () => { loading = false; render(); });
 audio.addEventListener('play', render);
 audio.addEventListener('pause', () => { render(); updateSession(); });
+audio.addEventListener('loadedmetadata', () => {
+  if (pendingOffset && current) audio.currentTime = Math.min(pendingOffset, Math.max(0, (audio.duration || Infinity) - 5));
+  pendingOffset = 0;
+});
 audio.addEventListener('durationchange', updateProgress);
 audio.addEventListener('timeupdate', () => { updateProgress(); tick(); });
 audio.addEventListener('ended', () => {
   if (!current) return;                      // the silent unlock clip
   if (sleep && sleep.kind === 'episode') return endSleep();
-  playRandom();
+  nextProgramme();
 });
 audio.addEventListener('error', () => {
   if (!current || audio.src.startsWith('blob:')) return;
   if (++errorSkips > MAX_AUTO_SKIPS) { loading = false; say("Couldn't load episodes. Check your connection.", { alert: true }); return render(); }
   say('That one won’t play — trying another…');
-  setTimeout(playRandom, 700);
+  setTimeout(nextProgramme, 700);
   render();
 });
 
@@ -198,7 +328,14 @@ function tick() {
 }
 // Timers can be throttled once the screen locks; timeupdate keeps firing while audio plays, so check there too.
 setInterval(tick, 1000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) { tick(); updateProgress(); } });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  tick(); updateProgress();
+  if (live && liveAt && !audio.paused) {            // a long stall can leave us behind the broadcast
+    const want = Date.now() / 1000 - liveAt.start;
+    if (Math.abs(want - audio.currentTime) > 20 && want < (audio.duration || 0) - 5) audio.currentTime = want;
+  }
+});
 
 const sleepLabel = () => {
   if (!sleep) return 'Off';
@@ -240,6 +377,7 @@ async function download() {
     const blob = new Blob(chunks, { type: 'audio/mpeg' });
     dl.blob = blob; dl.path = ep.path; dl.url = URL.createObjectURL(blob); dl.busy = false; dl.ctrl = null;
     // Play the finished local copy from the very beginning.
+    if (live) { live = false; liveAt = null; store.set('live', false); }   // starting over from 0:00 means leaving the broadcast
     audio.src = dl.url;
     audio.currentTime = 0;
     audio.play().catch(() => {});
@@ -279,13 +417,13 @@ function updateSession() {
 function bindSession() {
   if (!('mediaSession' in navigator)) return;
   const set = (name, fn) => { try { navigator.mediaSession.setActionHandler(name, fn); } catch { /* unsupported */ } };
-  set('play', () => audio.play().catch(() => {}));
+  set('play', () => { if (live && liveAt) resumeLive(); else audio.play().catch(() => {}); });
   set('pause', () => audio.pause());
-  set('previoustrack', () => { audio.currentTime = 0; });         // restart from the beginning
-  set('nexttrack', () => source && playRandom());
+  set('previoustrack', () => { if (!live) audio.currentTime = 0; });   // restart from the beginning
+  set('nexttrack', () => { if (source && !live) playRandom(); });
   set('seekbackward', () => skip(-SKIP_BACK));
   set('seekforward', () => skip(30));
-  set('seekto', (d) => { if (d.seekTime != null) audio.currentTime = d.seekTime; });
+  set('seekto', (d) => { if (!live && d.seekTime != null) audio.currentTime = d.seekTime; });
 }
 
 // ---------- viewport, sheets, full screen ----------
@@ -323,13 +461,14 @@ const ui = {
   cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
   sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlCap: $('#dl-cap'), dlVal: $('#dl-val'),
-  shows: $('#shows'), showsVal: $('#shows-val'), fs: $('#fs'), tip: $('#tip'),
+  shows: $('#shows'), showsVal: $('#shows-val'), fs: $('#fs'), tip: $('#tip'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
 };
 let seeking = false;
 
 function render() {
   const has = !!current;
-  const where = !source ? '' : source.kind === 'station' ? cap(source.id) : `${source.ids.length} show${source.ids.length === 1 ? '' : 's'}, shuffled`;
+  const where = !source ? '' : live ? `Live · ${labelOf(source).replace(', shuffled', '')}` : labelOf(source);
+  const clock = (sec) => new Date(sec * 1000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
   if (picking) {
     ui.cap.textContent = where; ui.title.textContent = 'Tuning in…'; ui.meta.textContent = '';
@@ -339,17 +478,20 @@ function render() {
     ui.meta.textContent = message || (catalog ? `${catalog.shows.length} shows · ${catalog.shows.reduce((n, s) => n + s.n, 0).toLocaleString('en-US')} episodes` : '');
   } else {
     ui.cap.textContent = where; ui.title.textContent = current.title;
-    ui.meta.textContent = message || (loading ? 'Loading…' : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
+    ui.meta.textContent = message || (loading ? 'Loading…' : live && liveAt ? [current.show, current.year || '', `on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`].filter(Boolean).join(' · ') : [current.show, current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
   }
+  ui.cap.classList.toggle('live', live && !!source && (has || picking));
   ui.meta.classList.toggle('alert', !!message && messageIsAlert);
+  for (const [b, on] of [[ui.modeDemand, !live], [ui.modeLive, live]]) b.setAttribute('aria-pressed', on);
   ui.tip.hidden = !(isIOS && !isStandalone && !has && !picking);
 
   const playing = has && !audio.paused;
   ui.play.classList.toggle('playing', playing && !loading && !picking);
   ui.play.classList.toggle('loading', loading || picking);
   ui.play.setAttribute('aria-label', playing ? 'Pause' : 'Play');
-  ui.play.disabled = ui.back.disabled = ui.seek.disabled = !has;
-  ui.next.disabled = !source;
+  ui.play.disabled = !has;
+  ui.back.disabled = ui.seek.disabled = !has || live;     // live radio can't be scrubbed
+  ui.next.disabled = !source || live;
 
   ui.shows.classList.toggle('on', source?.kind === 'mix');
   ui.showsVal.textContent = mix.length ? `${mix.length} selected` : 'Choose';
@@ -405,6 +547,10 @@ function buildStations() {
     b.addEventListener('click', () => start({ kind: 'station', id: st.id }));
     ui.grid.append(b);
   }
+  const all = el('button', 'cell station all', 'All shows');
+  all.dataset.id = 'all';
+  all.addEventListener('click', () => start({ kind: 'station', id: 'all' }));
+  ui.grid.append(all);
 }
 
 function buildSleepSheet() {
@@ -455,7 +601,9 @@ function buildShowsSheet() {
 function wire() {
   ui.play.addEventListener('click', togglePlay);
   ui.back.addEventListener('click', () => skip(-SKIP_BACK));
-  ui.next.addEventListener('click', () => { if (source) playRandom(); });
+  ui.next.addEventListener('click', () => { if (source && !live) playRandom(); });
+  ui.modeDemand.addEventListener('click', () => setLive(false));
+  ui.modeLive.addEventListener('click', () => setLive(true));
   ui.dl.addEventListener('click', download);
   ui.sleep.addEventListener('click', () => openSheet($('#sleep-sheet')));
   ui.shows.addEventListener('click', () => openSheet($('#shows-sheet')));
