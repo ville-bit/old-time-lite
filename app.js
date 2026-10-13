@@ -567,10 +567,11 @@ function buildShowsSheet() {
   });
   const empty = el('p', 'empty', 'No shows match.'); empty.hidden = true; list.append(empty);
   const shuffle = $('#shuffle'), clear = $('#clear');
-  function sync() {
+  function sync(save = true) {
     shuffle.disabled = sel.size === 0;
     shuffle.textContent = sel.size ? `Shuffle ${sel.size} show${sel.size === 1 ? '' : 's'}` : 'Shuffle';
     clear.disabled = sel.size === 0;
+    if (save) { mix = [...sel]; store.set('mix', mix); render(); }     // the Shows row always reflects the picker
   }
   $('#q').addEventListener('input', (e) => {
     const q = e.target.value.trim().toLowerCase();
@@ -580,11 +581,10 @@ function buildShowsSheet() {
   });
   clear.addEventListener('click', () => { sel.clear(); rows.forEach((r) => (r.firstChild.checked = false)); sync(); });
   shuffle.addEventListener('click', () => {
-    mix = [...sel]; store.set('mix', mix);
     closeSheet($('#shows-sheet'));
     start({ kind: 'mix', ids: mix });
   });
-  sync();
+  sync(false);
 }
 
 function wire() {
