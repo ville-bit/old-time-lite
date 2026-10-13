@@ -448,17 +448,18 @@ function closeSheet(o) { o.hidden = true; sheetOpener?.focus?.({ preventScroll: 
 
 // ---------- rendering ----------
 const ui = {
-  cap: $('#cap'), title: $('#title'), meta: $('#meta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
+  cap: $('#cap'), title: $('#title'), meta: $('#meta'), submeta: $('#submeta'), seek: $('#seek'), cur: $('#t-cur'), left: $('#t-left'),
   back: $('#back'), play: $('#play'), next: $('#next'), grid: $('#grid'),
   sleep: $('#sleep'), sleepVal: $('#sleep-val'), dl: $('#dl'), dlVal: $('#dl-val'),
   shows: $('#shows'), showsVal: $('#shows-val'), modeDemand: $('#mode-demand'), modeLive: $('#mode-live'),
 };
 let seeking = false;
 
-// The meta line: the first part truncates with an ellipsis, the rest (year, length / on-air time) always stays visible.
-function setMeta(main, rest = '') {
-  ui.meta.replaceChildren(el('span', 'm-main', main));
-  if (rest) ui.meta.append(el('span', 'm-rest', rest));
+// Under the title: the show name (or a status message) beside the download pill, and year / length on a line of its own.
+function setMeta(main, sub = '') {
+  ui.meta.textContent = main;
+  ui.submeta.textContent = sub;
+  ui.submeta.hidden = !sub;
 }
 
 function render() {
@@ -476,8 +477,8 @@ function render() {
     ui.cap.textContent = where; ui.title.textContent = current.title;
     if (message) setMeta(message);
     else if (loading) setMeta('Loading…');
-    else if (live && liveAt) setMeta(current.show, ` · on air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`);
-    else setMeta(current.show, [current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).map((p) => ` · ${p}`).join(''));
+    else if (live && liveAt) setMeta(current.show, `On air since ${clock(Math.min(liveAt.start, Date.now() / 1000))}`);
+    else setMeta(current.show, [current.year || '', current.dur ? `${Math.round(current.dur / 60)} min` : ''].filter(Boolean).join(' · '));
   }
   ui.cap.classList.toggle('live', live && !!source && (has || picking));
   ui.cap.hidden = !ui.cap.textContent;            // no label until a station is chosen
