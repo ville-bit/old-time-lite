@@ -41,7 +41,7 @@ button:disabled { cursor: default; }
   max-width: 480px;
   margin: 0 auto;
   /* top: room for the pinned top bar (40px) */
-  padding: calc(max(16px, env(safe-area-inset-top)) + 40px + 12px) var(--gutter) max(20px, env(safe-area-inset-bottom));
+  padding: calc(max(16px, env(safe-area-inset-top)) + 40px + 12px) var(--gutter) 0;
   display: flex;
   flex-direction: column;
 }
@@ -153,6 +153,10 @@ button:disabled { cursor: default; }
 .mini.on { color: var(--accent); border-color: #4a3710; }
 .mini::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: var(--dlp, 0%); background: var(--accent); }
 
+/* the main grid runs edge to edge and down to the bottom of the screen; only its top rule remains */
+#grid { margin-inline: calc(var(--gutter) * -1); border-width: var(--hair) 0 0; }
+#grid .cell:not(.ctl) { padding-left: var(--gutter); }
+
 /* ---------- the grid ---------- */
 .grid {
   display: grid;
@@ -207,7 +211,10 @@ button:disabled { cursor: default; }
 .cell.station.active, .cell.pick.active { background: var(--accent); color: var(--on-accent); }
 .cell.station.active:active { background: var(--accent); }
 .cell.station.all { grid-column: span 3; text-transform: none; }
-.cell.station.all, .cell.sel { min-height: calc(var(--row) * 1.4); }   /* the bottom row is taller */
+.cell.station.all, .cell.sel {      /* the bottom row is taller, and clears the home-indicator bar when there is one */
+  min-height: calc(var(--row) * 1.4 + env(safe-area-inset-bottom));
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
 .cap.live { color: var(--accent); }
 
 /* play / pause glyph */
