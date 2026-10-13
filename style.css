@@ -105,8 +105,8 @@ button:disabled { cursor: default; }
 }
 .meta-group { display: flex; flex-direction: column; gap: 4px; flex: none; }
 .meta-row { display: flex; align-items: center; gap: 12px; }
-.meta { margin: 0; flex: 1; min-width: 0; min-height: 1.3em; color: var(--dim); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.meta.sub { flex: none; min-height: 0; font-size: 14px; color: #636366; }
+.meta { margin: 0; min-width: 0; min-height: 1.3em; color: var(--dim); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta.sub { flex: 1; min-height: 0; font-size: 14px; color: #636366; }
 .meta.alert { color: var(--accent); }
 
 /* ---------- progress ---------- */
@@ -142,7 +142,7 @@ button:disabled { cursor: default; }
 
 /* small download pill, at the right end of the show / length line */
 .mini {
-  position: relative; overflow: hidden; flex: none;
+  position: relative; overflow: hidden; flex: none; margin-left: auto;
   height: 32px; padding: 0 14px;
   border: var(--hair) solid var(--line); border-radius: 999px;
   color: var(--fg); font-size: 12px; font-weight: 500; letter-spacing: 0;
