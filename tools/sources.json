@@ -1,0 +1,1816 @@
+{
+ "shows": [
+  {
+   "id": "x-minus-one",
+   "name": "X Minus One",
+   "expected": 122,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "OTRR_X_Minus_One_Singles"
+   ]
+  },
+  {
+   "id": "dimension-x",
+   "name": "Dimension X",
+   "expected": 50,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "OTRR_Dimension_X_Singles"
+   ]
+  },
+  {
+   "id": "space-patrol",
+   "name": "Space Patrol",
+   "expected": 112,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "OTRR_Space_Patrol_Singles"
+   ]
+  },
+  {
+   "id": "tom-corbett-space-cadet",
+   "name": "Tom Corbett, Space Cadet",
+   "expected": 54,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "SpaceCadet2",
+    "SpaceCadet"
+   ]
+  },
+  {
+   "id": "flash-gordon",
+   "name": "Flash Gordon",
+   "expected": 26,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "Flash_Gordon1935"
+   ]
+  },
+  {
+   "id": "buck-rogers",
+   "name": "Buck Rogers",
+   "expected": 15,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "otr_buckrogers"
+   ]
+  },
+  {
+   "id": "exploring-tomorrow",
+   "name": "Exploring Tomorrow",
+   "expected": 26,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "Exploring_Tomorrow"
+   ]
+  },
+  {
+   "id": "2000-plus",
+   "name": "2000 Plus",
+   "expected": 16,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "otr_2000Plus"
+   ]
+  },
+  {
+   "id": "planet-man",
+   "name": "Planet Man",
+   "expected": 77,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "OTRR_Planet_Man_Ver2_Singles"
+   ]
+  },
+  {
+   "id": "the-adventures-of-superman",
+   "name": "The Adventures of Superman",
+   "expected": 912,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "TheAdventuresOfSuperman_201805"
+   ]
+  },
+  {
+   "id": "tarzan",
+   "name": "Tarzan",
+   "expected": 230,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Tarzan_Singles_TLotJ"
+   ]
+  },
+  {
+   "id": "the-green-hornet",
+   "name": "The Green Hornet",
+   "expected": 67,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "TheGreenHornet"
+   ]
+  },
+  {
+   "id": "dragnet",
+   "name": "Dragnet",
+   "expected": 298,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "Dragnet_OTR"
+   ]
+  },
+  {
+   "id": "speed-gibson-of-the-international-secret-police",
+   "name": "Speed Gibson Of The International Secret Police",
+   "expected": 178,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "Speed_Gibson_Of_The_International_Secret_Police"
+   ]
+  },
+  {
+   "id": "the-blue-beetle",
+   "name": "The Blue Beetle",
+   "expected": 72,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Blue_Beetle_Singles"
+   ]
+  },
+  {
+   "id": "the-falcon",
+   "name": "The Falcon",
+   "expected": 92,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Falcon_Singles"
+   ]
+  },
+  {
+   "id": "dark-fantasy",
+   "name": "Dark Fantasy",
+   "expected": 27,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "OTRR_Dark_Fantasy_Singles"
+   ]
+  },
+  {
+   "id": "i-love-a-mystery",
+   "name": "I Love a Mystery",
+   "expected": 178,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "otr_iloveamystery"
+   ]
+  },
+  {
+   "id": "suspense",
+   "name": "Suspense",
+   "expected": 261,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "SUSPENSE3"
+   ]
+  },
+  {
+   "id": "molle-mystery-theatre",
+   "name": "Molle Mystery Theatre",
+   "expected": 71,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "OTRR_Molle_Mystery_Theatre_Singles"
+   ]
+  },
+  {
+   "id": "mystery-house",
+   "name": "Mystery House",
+   "expected": 32,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "OTRR_Mystery_House_Singles"
+   ]
+  },
+  {
+   "id": "the-adventures-of-philip-marlowe",
+   "name": "The Adventures of Philip Marlowe",
+   "expected": 105,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Philip_Marlowe_Singles"
+   ]
+  },
+  {
+   "id": "boston-blackie",
+   "name": "Boston Blackie",
+   "expected": 199,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Boston_Blackie_Singles"
+   ]
+  },
+  {
+   "id": "the-new-adventures-of-sherlock-holmes",
+   "name": "The New Adventures of Sherlock Holmes",
+   "expected": 52,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "sherlockholmes_otr"
+   ]
+  },
+  {
+   "id": "gunsmoke",
+   "name": "Gunsmoke",
+   "expected": 320,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "GUNSMOKE01",
+    "GUNSMOKE02",
+    "GUNSMOKE03",
+    "GUNSMOKE04"
+   ]
+  },
+  {
+   "id": "the-lone-ranger",
+   "name": "The Lone Ranger",
+   "expected": 570,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "The_Lone_Ranger_Page_02"
+   ]
+  },
+  {
+   "id": "have-gun-will-travel",
+   "name": "Have Gun Will Travel",
+   "expected": 106,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "HaveGunWillTravel_OldTimeRadio"
+   ]
+  },
+  {
+   "id": "tales-of-the-texas-rangers",
+   "name": "Tales of the Texas Rangers",
+   "expected": 91,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "TalesOfTheTexasRangers"
+   ]
+  },
+  {
+   "id": "the-six-shooter",
+   "name": "The Six Shooter",
+   "expected": 40,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OTRR_The_Six_Shooter_Singles"
+   ]
+  },
+  {
+   "id": "fort-laramie",
+   "name": "Fort Laramie",
+   "expected": 40,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OTRR_Fort_Laramie_Singles"
+   ]
+  },
+  {
+   "id": "our-miss-brooks",
+   "name": "Our Miss Brooks",
+   "expected": 178,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OurMissBrooks"
+   ]
+  },
+  {
+   "id": "the-great-gildersleeve",
+   "name": "The Great Gildersleeve",
+   "expected": 101,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "Great_Gildersleeve"
+   ]
+  },
+  {
+   "id": "the-harold-peary-show",
+   "name": "The Harold Peary Show",
+   "expected": 37,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_Harold_Peary_Show_Singles"
+   ]
+  },
+  {
+   "id": "the-jack-benny-show",
+   "name": "The Jack Benny Show",
+   "expected": 761,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_Jack_Benny_Singles_1940-1941",
+    "OTRR_Jack_Benny_Singles_1941-1942",
+    "OTRR_Jack_Benny_Singles_1942-1943"
+   ]
+  },
+  {
+   "id": "the-phil-harris-alice-faye-show",
+   "name": "The Phil Harris - Alice Faye Show",
+   "expected": 249,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_Harris_Faye_Singles"
+   ]
+  },
+  {
+   "id": "fibber-mcgee-and-molly",
+   "name": "Fibber McGee and Molly",
+   "expected": 1197,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "fibber-mc-gee-and-molly"
+   ]
+  },
+  {
+   "id": "pat-novak-for-hire",
+   "name": "Pat Novak, For Hire",
+   "expected": 23,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "PatNovakForHire"
+   ]
+  },
+  {
+   "id": "escape",
+   "name": "Escape",
+   "expected": 73,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "otr_escape"
+   ]
+  },
+  {
+   "id": "the-lives-of-harry-lime",
+   "name": "The Lives of Harry Lime",
+   "expected": 52,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "TheLivesOfHarryLime"
+   ]
+  },
+  {
+   "id": "the-saint",
+   "name": "The Saint",
+   "expected": 91,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "TheSaintVincentPriceOTR"
+   ]
+  },
+  {
+   "id": "broadway-is-my-beat",
+   "name": "Broadway Is My Beat",
+   "expected": 153,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Broadway_Is_My_Beat_Singles"
+   ]
+  },
+  {
+   "id": "bold-venture",
+   "name": "Bold Venture",
+   "expected": 57,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "BoldVenture57Episodes"
+   ]
+  },
+  {
+   "id": "inner-sanctum-mysteries",
+   "name": "Inner Sanctum Mysteries",
+   "expected": 155,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "OTRR_Inner_Sanctum_Mysteries_Singles"
+   ]
+  },
+  {
+   "id": "lights-out",
+   "name": "Lights Out",
+   "expected": 86,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "LightsOutoldTimeRadio"
+   ]
+  },
+  {
+   "id": "the-mysterious-traveler",
+   "name": "The Mysterious Traveler",
+   "expected": 77,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "TheMysteriousTraveler"
+   ]
+  },
+  {
+   "id": "abbott-and-costello",
+   "name": "Abbott and Costello",
+   "expected": 96,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "otr_abbottandcostello"
+   ]
+  },
+  {
+   "id": "new-adventures-of-nero-wolfe",
+   "name": "New Adventures of Nero Wolfe",
+   "expected": 25,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_New_Adventures_of_Nero_Wolfe_Singles"
+   ]
+  },
+  {
+   "id": "the-black-museum",
+   "name": "The Black Museum",
+   "expected": 51,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Black_Museum_Singles"
+   ]
+  },
+  {
+   "id": "my-favorite-husband",
+   "name": "My Favorite Husband",
+   "expected": 110,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "MyFavoriteHusband"
+   ]
+  },
+  {
+   "id": "command-performance",
+   "name": "Command Performance",
+   "expected": 232,
+   "channels": [],
+   "items": [
+    "CommandPerformance"
+   ]
+  },
+  {
+   "id": "the-whistler",
+   "name": "The Whistler",
+   "expected": 502,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "OTRR_Whistler_Singles"
+   ]
+  },
+  {
+   "id": "calling-all-cars",
+   "name": "Calling All Cars",
+   "expected": 298,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Calling_All_Cars_Singles"
+   ]
+  },
+  {
+   "id": "weird-circle",
+   "name": "Weird Circle",
+   "expected": 78,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "OTRR_Weird_Circle_Singles"
+   ]
+  },
+  {
+   "id": "the-hermits-cave",
+   "name": "The Hermit's Cave",
+   "expected": 21,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "The_Hermits_Cave"
+   ]
+  },
+  {
+   "id": "hopalong-cassidy",
+   "name": "Hopalong Cassidy",
+   "expected": 104,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "HopalongCassidy"
+   ]
+  },
+  {
+   "id": "cbs-radio-mystery-theater-fantasy",
+   "name": "CBS Radio Mystery Theater [Fantasy]",
+   "expected": 147,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "cbsmtfs6",
+    "cbsmtfs7",
+    "cbsmtfs8"
+   ]
+  },
+  {
+   "id": "cbs-radio-mystery-theater",
+   "name": "CBS Radio Mystery Theater",
+   "expected": 96,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "CbsRadioMysteryTheater1976Page3",
+    "CbsRadioMysteryTheater1976Page4",
+    "CbsRadioMysteryTheater1976Page5",
+    "CbsRadioMysteryTheater1976Page2",
+    "CbsRadioMysteryTheater1975Page1",
+    "CbsRadioMysteryTheater1976Page1"
+   ]
+  },
+  {
+   "id": "richard-diamond-private-detective",
+   "name": "Richard Diamond, Private Detective",
+   "expected": 106,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Richard_Diamond_Private_Detective_Singles"
+   ]
+  },
+  {
+   "id": "ranger-bill",
+   "name": "Ranger Bill",
+   "expected": 221,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Ranger_Bill_Singles"
+   ]
+  },
+  {
+   "id": "let-george-do-it",
+   "name": "Let George Do It",
+   "expected": 427,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Let_George_Do_It_Singles"
+   ]
+  },
+  {
+   "id": "father-knows-best",
+   "name": "Father Knows Best",
+   "expected": 111,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "FatherKnowsBest45Episodes"
+   ]
+  },
+  {
+   "id": "secrets-of-scotland-yard",
+   "name": "Secrets of Scotland Yard",
+   "expected": 57,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Secrets_Of_Scotland_Yard_Singles"
+   ]
+  },
+  {
+   "id": "mr-district-attorney",
+   "name": "Mr District Attorney",
+   "expected": 84,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Mr_District_Attorney_Singles"
+   ]
+  },
+  {
+   "id": "the-life-of-riley",
+   "name": "The Life of Riley",
+   "expected": 132,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "TheLifeOfRiley"
+   ]
+  },
+  {
+   "id": "lux-radio-theatre",
+   "name": "Lux Radio Theatre",
+   "expected": 789,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OTRR_Lux_Radio_Theater_Singles"
+   ]
+  },
+  {
+   "id": "the-campbell-playhouse",
+   "name": "The Campbell Playhouse",
+   "expected": 73,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "otr_campbellplayhouse"
+   ]
+  },
+  {
+   "id": "mercury-theatre",
+   "name": "Mercury Theatre",
+   "expected": 22,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OrsonWelles-MercuryTheater-1938Recordings"
+   ]
+  },
+  {
+   "id": "on-stage",
+   "name": "On Stage",
+   "expected": 42,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OTRR_On_Stage_Singles_201901"
+   ]
+  },
+  {
+   "id": "screen-guild-theater",
+   "name": "Screen Guild Theater",
+   "expected": 348,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "ScreenGuildTheater"
+   ]
+  },
+  {
+   "id": "academy-award",
+   "name": "Academy Award",
+   "expected": 39,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OTRR_Academy_Award_Theater_Singles"
+   ]
+  },
+  {
+   "id": "first-nighter",
+   "name": "First Nighter",
+   "expected": 34,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "first-nighter"
+   ]
+  },
+  {
+   "id": "screen-directors-playhouse",
+   "name": "Screen Director's Playhouse",
+   "expected": 120,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "ScreenDirectorsPlayhouse"
+   ]
+  },
+  {
+   "id": "nbc-university-theater",
+   "name": "NBC University Theater",
+   "expected": 110,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "NBC_University_Theater"
+   ]
+  },
+  {
+   "id": "dr-kildare",
+   "name": "Dr. Kildare",
+   "expected": 60,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OTRR_Dr_Kildare_Singles"
+   ]
+  },
+  {
+   "id": "yours-truly-johnny-dollar",
+   "name": "Yours Truly, Johnny Dollar",
+   "expected": 717,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_YoursTrulyJohnnyDollar_Singles"
+   ]
+  },
+  {
+   "id": "vic-and-sade",
+   "name": "Vic and Sade",
+   "expected": 250,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "VicSade1940-1941",
+    "VicSade1942-1947"
+   ]
+  },
+  {
+   "id": "sf-68",
+   "name": "SF 68",
+   "expected": 14,
+   "channels": [
+    "future"
+   ],
+   "items": [
+    "Sf_68"
+   ]
+  },
+  {
+   "id": "the-haunting-hour",
+   "name": "The Haunting Hour",
+   "expected": 36,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "haunting_hour"
+   ]
+  },
+  {
+   "id": "moon-over-africa",
+   "name": "Moon Over Africa",
+   "expected": 26,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Moon_Over_Africa_Singles"
+   ]
+  },
+  {
+   "id": "dangerous-assignment",
+   "name": "Dangerous Assignment",
+   "expected": 200,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "Otrr_Dangerous_Assignment_Singles"
+   ]
+  },
+  {
+   "id": "sealed-book",
+   "name": "Sealed Book",
+   "expected": 26,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "OTRR_Sealed_Book_Singles"
+   ]
+  },
+  {
+   "id": "whitehall-1212",
+   "name": "Whitehall 1212",
+   "expected": 43,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Whitehall_1212_Singles"
+   ]
+  },
+  {
+   "id": "the-adventures-of-frank-race",
+   "name": "The Adventures of Frank Race",
+   "expected": 43,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Frank_Race_Singles"
+   ]
+  },
+  {
+   "id": "the-halls-of-ivy",
+   "name": "The Halls of Ivy",
+   "expected": 89,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_Halls_Of_Ivy_Singles"
+   ]
+  },
+  {
+   "id": "the-clock",
+   "name": "The Clock",
+   "expected": 55,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "TheClock"
+   ]
+  },
+  {
+   "id": "john-steele-adventurer",
+   "name": "John Steele Adventurer",
+   "expected": 49,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_John_Steele_Adventurer_Singles"
+   ]
+  },
+  {
+   "id": "the-mel-blanc-show",
+   "name": "The Mel Blanc Show",
+   "expected": 42,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_Mel_Blanc_Singles"
+   ]
+  },
+  {
+   "id": "burns-and-allen",
+   "name": "Burns and Allen",
+   "expected": 272,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "the-burns-and-allen-show-1934-09-26-2-leaving-for-america"
+   ]
+  },
+  {
+   "id": "this-is-your-fbi",
+   "name": "This Is Your FBI",
+   "expected": 382,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_This_Is_Your_FBI_Singles"
+   ]
+  },
+  {
+   "id": "the-man-called-x",
+   "name": "The Man Called X",
+   "expected": 112,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Man_Called_X_Singles"
+   ]
+  },
+  {
+   "id": "counter-spy",
+   "name": "Counter-Spy",
+   "expected": 71,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Counterspy_Singles"
+   ]
+  },
+  {
+   "id": "magic-island",
+   "name": "Magic Island",
+   "expected": 130,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Magic_Island_Singles"
+   ]
+  },
+  {
+   "id": "frontier-gentleman",
+   "name": "Frontier Gentleman",
+   "expected": 42,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "FrontierGentleman-All41Episodes"
+   ]
+  },
+  {
+   "id": "philo-vance",
+   "name": "Philo Vance",
+   "expected": 95,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Philo_Vance_Singles"
+   ]
+  },
+  {
+   "id": "ozzie-harriet",
+   "name": "Ozzie & Harriet",
+   "expected": 81,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OzzieHarriet"
+   ]
+  },
+  {
+   "id": "duffys-tavern",
+   "name": "Duffy's Tavern",
+   "expected": 118,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "DuffysTavern_524"
+   ]
+  },
+  {
+   "id": "frontier-town",
+   "name": "Frontier Town",
+   "expected": 47,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OTRR_Frontier_Town_Singles"
+   ]
+  },
+  {
+   "id": "hall-of-fantasy",
+   "name": "Hall of Fantasy",
+   "expected": 70,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "470213ThePerfectScript"
+   ]
+  },
+  {
+   "id": "wild-bill-hickok",
+   "name": "Wild Bill Hickok",
+   "expected": 263,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OTRR_Wild_Bill_Hickock_Singles"
+   ]
+  },
+  {
+   "id": "candy-matson",
+   "name": "Candy Matson",
+   "expected": 14,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Candy_Matson_Singles"
+   ]
+  },
+  {
+   "id": "sam-spade",
+   "name": "Sam Spade",
+   "expected": 70,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Sam_Spade_Singles"
+   ]
+  },
+  {
+   "id": "radio-readers-digest",
+   "name": "Radio Reader's Digest",
+   "expected": 72,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "RadioReadersDigest"
+   ]
+  },
+  {
+   "id": "classic-baseball",
+   "name": "Classic Baseball",
+   "expected": 511,
+   "channels": [
+    "sports"
+   ],
+   "items": [
+    "classicmlbbaseballradio"
+   ]
+  },
+  {
+   "id": "black-flame-of-the-amazon",
+   "name": "Black Flame of the Amazon",
+   "expected": 28,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Black_Flame_Singles"
+   ]
+  },
+  {
+   "id": "the-shadow",
+   "name": "The Shadow",
+   "expected": 239,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "the-shadow-1938-10-09-141-death-stalks-the-shadow"
+   ]
+  },
+  {
+   "id": "box-13",
+   "name": "Box 13",
+   "expected": 104,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "OTRR_Box_13_Singles"
+   ]
+  },
+  {
+   "id": "barrie-craig-confidential-investigator",
+   "name": "Barrie Craig, Confidential Investigator",
+   "expected": 59,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Barrie_Craig_Singles"
+   ]
+  },
+  {
+   "id": "mr-keen-tracer-of-lost-persons",
+   "name": "Mr. Keen, Tracer of Lost Persons",
+   "expected": 63,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Mr_Keen_Tracer_Of_Lost_Persons_Singles"
+   ]
+  },
+  {
+   "id": "rocky-jordan",
+   "name": "Rocky Jordan",
+   "expected": 94,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "RockyJordan"
+   ]
+  },
+  {
+   "id": "nick-carter-master-detective",
+   "name": "Nick Carter, Master Detective",
+   "expected": 150,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Nick_Carter_Master_Detective_Singles"
+   ]
+  },
+  {
+   "id": "the-aldrich-family",
+   "name": "The Aldrich Family",
+   "expected": 97,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "TheAldrichFamily"
+   ]
+  },
+  {
+   "id": "gang-busters",
+   "name": "Gang Busters",
+   "expected": 88,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "gang-busters-1955-04-02-885-the-case-of-the-mistreated-lady"
+   ]
+  },
+  {
+   "id": "night-beat",
+   "name": "Night Beat",
+   "expected": 71,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "night-beat-1950-07-24-25-the-devils-bible"
+   ]
+  },
+  {
+   "id": "lum-and-abner",
+   "name": "Lum and Abner",
+   "expected": 1646,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "l-a-1953-11-20-xx-thanksgiving-in-pine-ridge"
+   ]
+  },
+  {
+   "id": "voyage-of-the-scarlet-queen",
+   "name": "Voyage of the Scarlet Queen",
+   "expected": 35,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "VoyageOfTheScarletQueen"
+   ]
+  },
+  {
+   "id": "the-bob-hope-show",
+   "name": "The Bob Hope Show",
+   "expected": 202,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "The_Bob_Hope_Program"
+   ]
+  },
+  {
+   "id": "the-martin-and-lewis-show",
+   "name": "The Martin and Lewis Show",
+   "expected": 82,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "MartinAndLewis_OldTimeRadio"
+   ]
+  },
+  {
+   "id": "its-higgins-sir",
+   "name": "It's Higgins, Sir!",
+   "expected": 13,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "ItsHigginsSir"
+   ]
+  },
+  {
+   "id": "the-fred-allen-show",
+   "name": "The Fred Allen Show",
+   "expected": 275,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "town-hall-tonight-1938-06-08-232-music-publisher-needs-a-tune"
+   ]
+  },
+  {
+   "id": "the-bickersons",
+   "name": "The Bickersons",
+   "expected": 40,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "bickersons-1947-03-02-12-blanche-has-a-stomach-ache"
+   ]
+  },
+  {
+   "id": "the-big-show",
+   "name": "The Big Show",
+   "expected": 30,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "OTRR_The_Big_Show_Singles"
+   ]
+  },
+  {
+   "id": "the-bing-crosby-show",
+   "name": "The Bing Crosby Show",
+   "expected": 708,
+   "channels": [],
+   "items": [
+    "general-electric-show-52-54-1952-12-25-12-guest-gary-crosby"
+   ]
+  },
+  {
+   "id": "amos-and-andy",
+   "name": "Amos and Andy",
+   "expected": 335,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "a-a-1948-11-14-183-tourist-sightseeing-agency-aka-ny-sightseeing-agency-aka-andy"
+   ]
+  },
+  {
+   "id": "perry-mason",
+   "name": "Perry Mason",
+   "expected": 75,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "Perry_Mason_Radio_Show"
+   ]
+  },
+  {
+   "id": "eddie-cantor",
+   "name": "Eddie Cantor",
+   "expected": 203,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "chaseandsanbornhour1931122015firstsongcarolinamoon"
+   ]
+  },
+  {
+   "id": "edgar-bergen-and-charlie-mccarthy",
+   "name": "Edgar Bergen and Charlie McCarthy",
+   "expected": 254,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "edgar-bergen-1937-12-12-32-guest-mae-west"
+   ]
+  },
+  {
+   "id": "the-damon-runyon-theatre",
+   "name": "The Damon Runyon Theatre",
+   "expected": 52,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Damon_Runyon_Singles"
+   ]
+  },
+  {
+   "id": "quiet-please",
+   "name": "Quiet, Please",
+   "expected": 55,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "QuietPlease_806"
+   ]
+  },
+  {
+   "id": "the-witchs-tale",
+   "name": "The Witch's Tale",
+   "expected": 69,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "TheWitchsTale"
+   ]
+  },
+  {
+   "id": "the-shadow-of-fu-manchu",
+   "name": "The Shadow of Fu Manchu",
+   "expected": 87,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "390903-102-the-joy-shop"
+   ]
+  },
+  {
+   "id": "chandu-the-magician",
+   "name": "Chandu the Magician",
+   "expected": 178,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "otr_chanduthemagician"
+   ]
+  },
+  {
+   "id": "challenge-of-the-yukon",
+   "name": "Challenge of the Yukon",
+   "expected": 629,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "OTRR_Challenge_of_the_Yukon_Singles"
+   ]
+  },
+  {
+   "id": "michael-shayne",
+   "name": "Michael Shayne",
+   "expected": 35,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "Michael_Shayne"
+   ]
+  },
+  {
+   "id": "mr-moto",
+   "name": "Mr Moto",
+   "expected": 14,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "MrMoto"
+   ]
+  },
+  {
+   "id": "it-pays-to-be-ignorant",
+   "name": "It Pays To Be Ignorant",
+   "expected": 35,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "ItPaysToBeIgnorant"
+   ]
+  },
+  {
+   "id": "jeff-regan",
+   "name": "Jeff Regan",
+   "expected": 55,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Jeff_Regan_Singles"
+   ]
+  },
+  {
+   "id": "you-bet-your-life",
+   "name": "You Bet Your Life",
+   "expected": 180,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "you-bet-your-life-1952-02-20-160-secret-word-heart"
+   ]
+  },
+  {
+   "id": "the-scarlet-pimpernel",
+   "name": "The Scarlet Pimpernel",
+   "expected": 50,
+   "channels": [
+    "action"
+   ],
+   "items": [
+    "The_Scarlet_Pimpernel"
+   ]
+  },
+  {
+   "id": "dr-christian",
+   "name": "Dr. Christian",
+   "expected": 176,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "Dr.Christian_911"
+   ]
+  },
+  {
+   "id": "one-mans-family",
+   "name": "One Man's Family",
+   "expected": 40,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "OneMansFamily"
+   ]
+  },
+  {
+   "id": "the-goldbergs",
+   "name": "The Goldbergs",
+   "expected": 33,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "Goldbergs"
+   ]
+  },
+  {
+   "id": "ma-perkins",
+   "name": "Ma Perkins",
+   "expected": 52,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "MaPerkins021950"
+   ]
+  },
+  {
+   "id": "adventures-of-frank-merriwell",
+   "name": "Adventures of Frank Merriwell",
+   "expected": 39,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "AdventuresofFrankMerriwell"
+   ]
+  },
+  {
+   "id": "adventures-of-maisie",
+   "name": "Adventures of Maisie",
+   "expected": 60,
+   "channels": [
+    "drama"
+   ],
+   "items": [
+    "Maisie"
+   ]
+  },
+  {
+   "id": "red-ryder",
+   "name": "Red Ryder",
+   "expected": 65,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "red-ryder"
+   ]
+  },
+  {
+   "id": "horizons-west",
+   "name": "Horizons West",
+   "expected": 13,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OtrHorizonsWest13Of13Eps"
+   ]
+  },
+  {
+   "id": "mark-trail",
+   "name": "Mark Trail",
+   "expected": 39,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "mark_trail"
+   ]
+  },
+  {
+   "id": "luke-slaughter",
+   "name": "Luke Slaughter",
+   "expected": 16,
+   "channels": [
+    "western"
+   ],
+   "items": [
+    "OTRR_Luke_Slaughter_Of_Tombstone_Singles"
+   ]
+  },
+  {
+   "id": "information-please",
+   "name": "Information, Please",
+   "expected": 219,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "Information-Please"
+   ]
+  },
+  {
+   "id": "my-friend-irma",
+   "name": "My Friend Irma",
+   "expected": 91,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "my-friend-irma"
+   ]
+  },
+  {
+   "id": "eb-and-zeb",
+   "name": "Eb and Zeb",
+   "expected": 60,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "EbZeb"
+   ]
+  },
+  {
+   "id": "the-milton-berle-show",
+   "name": "The Milton Berle Show",
+   "expected": 36,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "Milton_Berle_47-48"
+   ]
+  },
+  {
+   "id": "the-goon-show",
+   "name": "The Goon Show",
+   "expected": 151,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "TheGoonShow1950to1960"
+   ]
+  },
+  {
+   "id": "the-spike-jones-show",
+   "name": "The Spike Jones Show",
+   "expected": 54,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "SpikeJones"
+   ]
+  },
+  {
+   "id": "easy-aces",
+   "name": "Easy Aces",
+   "expected": 237,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "otr_easyaces"
+   ]
+  },
+  {
+   "id": "the-red-skelton-show",
+   "name": "The Red Skelton Show",
+   "expected": 266,
+   "channels": [
+    "comedy"
+   ],
+   "items": [
+    "red-skelton-show_202008"
+   ]
+  },
+  {
+   "id": "ghost-corps",
+   "name": "Ghost Corps",
+   "expected": 30,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "otr_ghostcorps"
+   ]
+  },
+  {
+   "id": "dick-barton-special-agent",
+   "name": "Dick Barton, Special Agent",
+   "expected": 10,
+   "channels": [
+    "suspense"
+   ],
+   "items": [
+    "otr_dickbartonspecialagent"
+   ]
+  },
+  {
+   "id": "21st-precinct",
+   "name": "21st Precinct",
+   "expected": 107,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_21st_Precinct_Singles"
+   ]
+  },
+  {
+   "id": "the-line-up",
+   "name": "The Line-Up",
+   "expected": 78,
+   "channels": [
+    "crime"
+   ],
+   "items": [
+    "OTRR_Line_Up_Singles"
+   ]
+  },
+  {
+   "id": "diary-of-fate",
+   "name": "Diary of Fate",
+   "expected": 25,
+   "channels": [
+    "horror"
+   ],
+   "items": [
+    "DiaryOfFate"
+   ]
+  },
+  {
+   "id": "ripleys-believe-it-or-not",
+   "name": "Ripley's Believe It or Not",
+   "expected": 364,
+   "channels": [],
+   "items": [
+    "believe-it-or-not"
+   ]
+  },
+  {
+   "id": "bill-stern-sports-reel",
+   "name": "Bill Stern Sports Reel",
+   "expected": 62,
+   "channels": [
+    "sports"
+   ],
+   "items": [
+    "Bill_Sterns_Sports_Newsreel"
+   ]
+  }
+ ],
+ "stations": [
+  "future",
+  "action",
+  "crime",
+  "horror",
+  "suspense",
+  "western",
+  "comedy",
+  "drama",
+  "sports"
+ ]
+}

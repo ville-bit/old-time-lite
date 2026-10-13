@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Old Time Radio</title>
+<meta name="description" content="Classic radio, one tap. Stations, shuffle, sleep timer.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Radio">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="app">
+  <section class="now" aria-live="polite">
+    <p class="cap" id="cap">Old Time Radio</p>
+    <h1 id="title">Choose a station</h1>
+    <p class="meta" id="meta"></p>
+  </section>
+
+  <section class="progress">
+    <input class="seek" id="seek" type="range" min="0" max="1000" step="1" value="0" aria-label="Position" disabled>
+    <div class="times"><span id="t-cur">0:00</span><span id="t-left">0:00</span></div>
+  </section>
+
+  <div class="grid" id="grid">
+    <button class="cell ctl" id="back" disabled aria-label="Back 15 seconds">−15s</button>
+    <button class="cell ctl" id="play" disabled aria-label="Play">
+      <svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+      <svg class="ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+    <button class="cell ctl" id="next" disabled aria-label="Another random episode">Next</button>
+
+    <button class="cell sel" id="sleep"><span class="cap">Sleep</span><span class="val" id="sleep-val">Off</span></button>
+    <button class="cell sel" id="dl" disabled><span class="cap" id="dl-cap">Episode</span><span class="val" id="dl-val">Download</span></button>
+    <button class="cell sel" id="shows"><span class="cap">Shows</span><span class="val" id="shows-val">Choose</span></button>
+
+    <!-- stations are inserted here -->
+  </div>
+</main>
+
+<dialog class="sheet" id="sleep-sheet" aria-labelledby="sleep-h">
+  <div class="sheet-head">
+    <div>
+      <p class="cap" id="sleep-h">Sleep timer</p>
+      <p class="sheet-sub" id="sleep-sub">Playback stops automatically</p>
+    </div>
+    <button class="link" data-close>Close</button>
+  </div>
+  <div class="grid cols2" id="sleep-grid"></div>
+</dialog>
+
+<dialog class="sheet full" id="shows-sheet" aria-label="Shows">
+  <div class="sheet-bar">
+    <input id="q" type="search" placeholder="Search shows" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search shows">
+    <button class="link" data-close>Done</button>
+  </div>
+  <div class="list" id="show-list" role="group" aria-label="Shows"></div>
+  <div class="sheet-foot grid cols3">
+    <button class="cell" id="clear">Clear</button>
+    <button class="cell go" id="shuffle" disabled>Shuffle</button>
+  </div>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

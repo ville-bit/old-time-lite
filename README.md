@@ -1,0 +1,28 @@
+# Old Time Radio (lite)
+
+One screen, one grid. Static files, no build step, no server code.
+
+- **Stations** – tap one, get a random episode from the start. When it ends, the next one starts.
+- **Shows** – pick any number of shows and shuffle them.
+- **Sleep** – 15 min … 2 hours, or end of episode. Survives a reload; checked on every audio tick so it still fires with the screen locked.
+- **Download** – fetches the whole episode, restarts it from 0:00 from the local copy, then the button becomes *Save file* (iOS share sheet → Save to Files).
+- Lock-screen controls: play/pause, ±seek, next, and *previous = restart episode*.
+
+## Run it
+
+    python3 -m http.server 8765
+
+Open http://localhost:8765. To try it on your iPhone, use your Mac's LAN address instead (same Wi-Fi).
+
+## Put it on your iPhone
+
+Host the folder on any static host with HTTPS (GitHub Pages, Netlify, Cloudflare Pages), open it in Safari,
+then Share → **Add to Home Screen**. It then launches full-screen like an app.
+
+## Refresh the catalog
+
+`catalog/` is a snapshot of archive.org (163 shows, ~23.6k episodes). To rebuild it:
+
+    python3 tools/build_catalog.py
+
+`tools/sources.json` maps each show to its archive.org item(s); delete it to re-discover from oldtime.radio's API.
