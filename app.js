@@ -543,7 +543,7 @@ function buildStations() {
   const all = el('button', 'cell station all', 'All shows');
   all.dataset.id = 'all';
   all.addEventListener('click', () => start({ kind: 'station', id: 'all' }));
-  ui.grid.append(all);
+  ui.grid.append(all, ui.shows);     // Shows closes the grid (moves the existing button to the end)
 }
 
 function buildSleepSheet() {
