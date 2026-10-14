@@ -435,11 +435,6 @@ function syncViewport() {
   const vv = window.visualViewport, root = document.documentElement.style;
   root.setProperty('--vv-h', (vv ? vv.height : innerHeight) + 'px');
   root.setProperty('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
-  // Home Screen app, portrait: iOS can report a page height shorter than the physical screen (the home-indicator area is
-  // left out), which showed as a black strip. Never let the page be shorter than the screen.
-  const standalone = document.documentElement.classList.contains('standalone');
-  if (standalone && innerHeight > innerWidth && screen.height > innerHeight) root.setProperty('--full-h', screen.height + 'px');
-  else root.removeProperty('--full-h');
 }
 syncViewport();
 window.visualViewport?.addEventListener('resize', syncViewport);
