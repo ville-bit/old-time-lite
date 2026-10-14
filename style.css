@@ -213,9 +213,9 @@ button:disabled { cursor: default; }
 .cell.station.active, .cell.pick.active { background: var(--accent); color: var(--on-accent); }
 .cell.station.active:active { background: var(--accent); }
 .cell.station.all { grid-column: span 3; text-transform: none; }
-.cell.station.all, .cell.sel {      /* the bottom row is taller, and clears the home-indicator bar when there is one */
-  min-height: calc(var(--row) * 1.4 + env(safe-area-inset-bottom));
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+.cell.station.all, .cell.sel {      /* the bottom row is taller and sits right on the bottom edge of the screen */
+  min-height: calc(var(--row) * 1.4);
+  padding-bottom: 18px;               /* labels stay clear of the home-indicator bar without any extra safe-area strip */
 }
 .cap.live { color: var(--accent); }
 
