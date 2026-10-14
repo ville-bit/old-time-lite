@@ -242,8 +242,10 @@ button:disabled { cursor: default; }
 
 /* Home Screen web app: there are no browser toolbars, so pin to the screen edges. The height measured in JS can fall
    short of the real screen by the home-indicator inset on iOS, which left a black gap along the bottom. */
-html.standalone #app { position: fixed; inset: 0; height: auto; }
-html.standalone .overlay { top: 0; bottom: 0; height: auto; }
+html.standalone, html.standalone body { min-height: var(--full-h, 100%); }
+html.standalone body { position: relative; }
+html.standalone #app { position: absolute; top: 0; left: 0; right: 0; height: var(--full-h, 100%); }
+html.standalone .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: auto; height: var(--full-h, 100%); }
 
 /* ---------- sheets ----------
    Plain fixed overlays rather than <dialog>: iOS browsers mis-size dialogs against their bottom toolbar

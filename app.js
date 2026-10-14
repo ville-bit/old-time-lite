@@ -435,6 +435,12 @@ function syncViewport() {
   const vv = window.visualViewport, root = document.documentElement.style;
   root.setProperty('--vv-h', (vv ? vv.height : innerHeight) + 'px');
   root.setProperty('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
+  // Home Screen app, portrait: on iOS the page can be reported shorter than the screen by the status-bar inset (812px of an
+  // 874px screen), leaving a black strip. Fixed elements are clipped to that short viewport, so the CSS uses normal
+  // positioning and sizes the page to the physical screen.
+  const standalone = document.documentElement.classList.contains('standalone');
+  if (standalone && innerHeight > innerWidth && screen.height > innerHeight) root.setProperty('--full-h', screen.height + 'px');
+  else root.removeProperty('--full-h');
 }
 syncViewport();
 window.visualViewport?.addEventListener('resize', syncViewport);
@@ -635,12 +641,15 @@ function wire() {
 // A magenta bar is drawn on the bottom edge of the page's fixed layer, so you can see where the page thinks the bottom is.
 let diag = null;
 function showDiag() {
-  if (diag) { diag.box.remove(); diag.bar.remove(); diag.probe.remove(); clearInterval(diag.timer); diag = null; return; }
-  const box = el('pre'), bar = el('div'), probe = el('div');
+  if (diag) { [diag.box, diag.bar, diag.bar2, diag.probe, diag.units].forEach((n) => n.remove()); clearInterval(diag.timer); diag = null; return; }
+  const box = el('pre'), bar = el('div'), probe = el('div'), bar2 = el('div'), units = el('div');
   box.style.cssText = 'position:fixed;left:8px;right:8px;top:64px;z-index:99;margin:0;padding:8px;background:rgba(0,0,0,.85);color:#7CFC00;font:11px/1.35 ui-monospace,Menlo,monospace;border:1px solid #7CFC00;pointer-events:none;white-space:pre-wrap';
   bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;height:4px;z-index:99;background:#f0f;pointer-events:none';
   probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';
-  document.body.append(box, bar, probe);
+  bar2.style.cssText = 'position:absolute;left:0;right:0;top:calc(var(--full-h, 100%) - 4px);height:4px;z-index:98;background:#0ff;pointer-events:none';
+  units.style.cssText = 'position:fixed;left:0;top:0;width:1px;visibility:hidden';
+  units.innerHTML = ['vh', 'svh', 'lvh', 'dvh'].map((u) => `<div data-u="${u}" style="height:100${u}"></div>`).join('');
+  document.body.append(box, bar, bar2, probe, units);
   const draw = () => {
     const vv = window.visualViewport, ps = getComputedStyle(probe), app = $('#app').getBoundingClientRect(), grid = $('#grid').getBoundingClientRect();
     box.textContent = [
@@ -652,12 +661,14 @@ function showDiag() {
       `safe top/btm      ${ps.paddingTop} / ${ps.paddingBottom}   l/r ${ps.paddingLeft} / ${ps.paddingRight}`,
       `#app   bottom ${Math.round(app.bottom)}  h ${Math.round(app.height)}`,
       `#grid  bottom ${Math.round(grid.bottom)}  top ${Math.round(grid.top)}`,
-      `--vv-h ${document.documentElement.style.getPropertyValue('--vv-h')}`,
+      `--vv-h ${document.documentElement.style.getPropertyValue('--vv-h')}   --full-h ${document.documentElement.style.getPropertyValue('--full-h') || '(unset)'}`,
+      `100vh/svh/lvh/dvh ${[...units.children].map((d) => Math.round(d.getBoundingClientRect().height)).join(' / ')}`,
+      `html scrollH ${document.documentElement.scrollHeight}  body h ${Math.round(document.body.getBoundingClientRect().height)}`,
       `UA ${navigator.userAgent.replace(/^Mozilla\/5.0 /, '')}`,
     ].join('\n');
   };
   draw();
-  diag = { box, bar, probe, timer: setInterval(draw, 700) };
+  diag = { box, bar, bar2, probe, units, timer: setInterval(draw, 700) };
 }
 {
   let taps = [];
