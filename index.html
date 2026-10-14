@@ -15,6 +15,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+  // Running as a Home Screen app (no browser toolbars): the CSS pins the layout to the screen edges.
+  if (navigator.standalone === true || matchMedia('(display-mode: standalone)').matches) document.documentElement.classList.add('standalone');
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
