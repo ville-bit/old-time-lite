@@ -435,6 +435,11 @@ function syncViewport() {
   const vv = window.visualViewport, root = document.documentElement.style;
   root.setProperty('--vv-h', (vv ? vv.height : innerHeight) + 'px');
   root.setProperty('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
+  // Home Screen app, portrait: iOS can report a page height shorter than the physical screen (the home-indicator area is
+  // left out), which showed as a black strip. Never let the page be shorter than the screen.
+  const standalone = document.documentElement.classList.contains('standalone');
+  if (standalone && innerHeight > innerWidth && screen.height > innerHeight) root.setProperty('--full-h', screen.height + 'px');
+  else root.removeProperty('--full-h');
 }
 syncViewport();
 window.visualViewport?.addEventListener('resize', syncViewport);
@@ -627,6 +632,44 @@ function wire() {
   ui.seek.addEventListener('change', () => {
     audio.currentTime = (ui.seek.value / 1000) * dur();
     seeking = false;
+  });
+}
+
+// ---------- layout diagnostics ----------
+// Hidden: tap the title 5 times quickly to show what the browser reports (for debugging layout on a real phone).
+// A magenta bar is drawn on the bottom edge of the page's fixed layer, so you can see where the page thinks the bottom is.
+let diag = null;
+function showDiag() {
+  if (diag) { diag.box.remove(); diag.bar.remove(); diag.probe.remove(); clearInterval(diag.timer); diag = null; return; }
+  const box = el('pre'), bar = el('div'), probe = el('div');
+  box.style.cssText = 'position:fixed;left:8px;right:8px;top:64px;z-index:99;margin:0;padding:8px;background:rgba(0,0,0,.85);color:#7CFC00;font:11px/1.35 ui-monospace,Menlo,monospace;border:1px solid #7CFC00;pointer-events:none;white-space:pre-wrap';
+  bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;height:4px;z-index:99;background:#f0f;pointer-events:none';
+  probe.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';
+  document.body.append(box, bar, probe);
+  const draw = () => {
+    const vv = window.visualViewport, ps = getComputedStyle(probe), app = $('#app').getBoundingClientRect(), grid = $('#grid').getBoundingClientRect();
+    box.textContent = [
+      `standalone  nav=${navigator.standalone}  mq=${matchMedia('(display-mode: standalone)').matches}  class=${document.documentElement.classList.contains('standalone')}`,
+      `innerW x innerH   ${innerWidth} x ${innerHeight}`,
+      `clientW x clientH ${document.documentElement.clientWidth} x ${document.documentElement.clientHeight}`,
+      `visualViewport    ${vv ? `${vv.width} x ${vv.height}  top ${vv.offsetTop}` : 'n/a'}`,
+      `screen            ${screen.width} x ${screen.height}  avail ${screen.availHeight}  dpr ${devicePixelRatio}`,
+      `safe top/btm      ${ps.paddingTop} / ${ps.paddingBottom}   l/r ${ps.paddingLeft} / ${ps.paddingRight}`,
+      `#app   bottom ${Math.round(app.bottom)}  h ${Math.round(app.height)}`,
+      `#grid  bottom ${Math.round(grid.bottom)}  top ${Math.round(grid.top)}`,
+      `--vv-h ${document.documentElement.style.getPropertyValue('--vv-h')}`,
+      `UA ${navigator.userAgent.replace(/^Mozilla\/5.0 /, '')}`,
+    ].join('\n');
+  };
+  draw();
+  diag = { box, bar, probe, timer: setInterval(draw, 700) };
+}
+{
+  let taps = [];
+  $('#title').addEventListener('click', () => {
+    const now = Date.now();
+    taps = [...taps.filter((t) => now - t < 1800), now];
+    if (taps.length >= 5) { taps = []; showDiag(); }
   });
 }
 
