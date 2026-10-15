@@ -13,12 +13,6 @@ One screen, one grid. Static files, no build step, no server code.
 - **Download** – fetches the whole episode, restarts it from 0:00 from the local copy, then the button becomes *Save file* (iOS share sheet → Save to Files).
 - Lock-screen controls: play/pause, ±seek, next, and *previous = restart episode*.
 
-## Run it
-
-    python3 -m http.server 8765
-
-Open http://localhost:8765. To try it on your iPhone, use your Mac's LAN address instead (same Wi-Fi).
-
 ## Put it on your iPhone
 
 Host the folder on any static host with HTTPS (GitHub Pages, Netlify, Cloudflare Pages), open it in Safari,
