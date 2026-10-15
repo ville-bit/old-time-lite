@@ -12,7 +12,7 @@
   --accent: #ffb020;
   --on-accent: #000;
   --gutter: 20px;
-  --row: clamp(64px, calc(var(--vv-h, 100dvh) * .094), 92px);
+  --row: clamp(64px, calc(var(--full-h, var(--vv-h, 100dvh)) * .094), 92px);   /* sizes from the full screen when known, so it can't flicker */
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
   color-scheme: dark;
 }

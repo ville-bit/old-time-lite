@@ -432,15 +432,17 @@ function bindSession() {
 // Mobile browsers with a bottom toolbar report a layout height taller than what is visible, which hides the bottom
 // of the page. The visual viewport is the visible area, so the layout is sized from that.
 function syncViewport() {
-  const vv = window.visualViewport, root = document.documentElement.style;
-  root.setProperty('--vv-h', (vv ? vv.height : innerHeight) + 'px');
-  root.setProperty('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
-  // Home Screen app, portrait: on iOS the page can be reported shorter than the screen by the status-bar inset (812px of an
-  // 874px screen), leaving a black strip. Fixed elements are clipped to that short viewport, so the CSS uses normal
-  // positioning and sizes the page to the physical screen.
-  const standalone = document.documentElement.classList.contains('standalone');
-  if (standalone && innerHeight > innerWidth && screen.height > innerHeight) root.setProperty('--full-h', screen.height + 'px');
-  else root.removeProperty('--full-h');
+  const vv = window.visualViewport, root = document.documentElement;
+  // Only write a value when it changed, so a resize event can never turn into a layout loop.
+  const set = (name, value) => { if (root.style.getPropertyValue(name) !== value) root.style.setProperty(name, value); };
+  set('--vv-h', (vv ? vv.height : innerHeight) + 'px');
+  set('--vv-top', (vv ? vv.offsetTop : 0) + 'px');
+  // Home Screen app, portrait: iOS can report the page as shorter than the screen (812px of an 874px screen: the top inset
+  // is taken off the height), leaving a black strip, and fixed elements are clipped to that short viewport. So the page is
+  // sized to the physical screen with normal positioning. This must NOT depend on the reported height: stretching the
+  // page changes the reported height, and a check against it flips on and off in a loop (the flashing).
+  if (root.classList.contains('standalone') && innerHeight > innerWidth) set('--full-h', screen.height + 'px');
+  else if (root.style.getPropertyValue('--full-h')) root.style.removeProperty('--full-h');
 }
 syncViewport();
 window.visualViewport?.addEventListener('resize', syncViewport);
